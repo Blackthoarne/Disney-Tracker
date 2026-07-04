@@ -486,6 +486,8 @@
     </p>
     <p style="font-size:13.5px;color:var(--text-dim);" id="wx-tonight">
     </p>
+    <div class="park-group-title" style="margin-top:18px;">Hourly Rain Chance</div>
+    <div id="hourlyPop" class="tag-list"></div>
   </section>
 
   <!-- 3. BEST PARK TODAY -->
@@ -1017,6 +1019,7 @@ async function loadLiveData(){
       fetch(`${WX_GRID}/forecast/hourly`).then(r=>r.json())
     ]);
     renderWeather(wxRes);
+    renderHourlyPop(wxHourly);
     const parkStats = renderParks(liveRes, schedRes);
     renderOverview(parkStats, wxRes);
     renderNext1Hour(liveRes);
@@ -1144,6 +1147,22 @@ function renderAllRides(liveRes){
     html += `</details>`;
   });
   document.getElementById('allrides-content').innerHTML = html;
+}
+
+function renderHourlyPop(wxHourly){
+  const el = document.getElementById('hourlyPop');
+  if(!el || !wxHourly || !wxHourly.properties) return;
+  const periods = wxHourly.properties.periods.slice(0, 12); // next 12 hours
+  let html = "";
+  periods.forEach(p=>{
+    const pop = (p.probabilityOfPrecipitation && p.probabilityOfPrecipitation.value) ?? 0;
+    let color = "var(--ok)";
+    if(pop >= 60) color = "var(--bad)";
+    else if(pop >= 30) color = "var(--warn)";
+    const time = new Date(p.startTime).toLocaleTimeString('en-US',{hour:'numeric'});
+    html += `<span class="tag" style="border-color:${color};color:${color};font-weight:600;">${time}: ${pop}%</span>`;
+  });
+  el.innerHTML = html || '<span class="empty-note">Hourly data unavailable</span>';
 }
 
 function crowdLabel(avgWait){
