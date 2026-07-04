@@ -230,6 +230,14 @@
   }
   .park-detail dt{ font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-faint); padding-top:2px;}
   .park-detail dd{ margin:0; color:var(--text-dim); }
+  .tab-bar{ display:flex; gap:8px; margin-bottom:16px; }
+  .tab-btn{
+    font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:13px;
+    letter-spacing:0.05em; text-transform:uppercase;
+    background:var(--bg-raised); color:var(--text-dim); border:1px solid var(--line);
+    padding:9px 18px; border-radius:999px; cursor:pointer;
+  }
+  .tab-btn.active{ background:var(--amber); color:#3A2604; border-color:var(--amber); }
   .map-link{
     display:inline-block; margin-top:14px;
     font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:12px;
@@ -362,15 +370,15 @@
       </div>
       <div class="sub">Live weather, park hours, wait times, and showtimes — pulled fresh every time you open this or tap refresh.</div>
     </div>
-    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:4px;">
-      <div style="background:var(--bg-inset);border:1px solid var(--line);border-radius:10px;padding:12px 18px;min-width:130px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:4px;">
+      <div>
+        <div class="stub-label" style="margin-bottom:8px;">Live Status</div>
+        <button id="refreshBtn" class="refresh-btn" onclick="loadLiveData()" style="font-size:15px;padding:12px 22px;">↻ Refresh</button>
+      </div>
+      <div style="background:var(--bg-inset);border:1px solid var(--line);border-radius:10px;padding:12px 18px;min-width:130px;text-align:right;">
         <div class="stub-label" style="margin-bottom:4px;">Today</div>
         <div class="stub-value" id="stubDate" style="font-size:17px;">—</div>
         <div class="stub-value" id="stubTime" style="color:var(--amber-ink);font-size:22px;margin-top:2px;">—</div>
-      </div>
-      <div>
-        <div class="stub-label" style="margin-bottom:8px;">Live Status</div>
-        <button id="refreshBtn" class="refresh-btn" onclick="loadLiveData()">↻ Refresh</button>
       </div>
     </div>
   </div>
@@ -498,6 +506,11 @@
       <h2>Park Details <span class="live-tag">Live</span> <span class="live-tag curated">+ Curated</span></h2>
       <span class="section-tag">Section 4</span>
     </div>
+    <div class="tab-bar">
+      <button class="tab-btn active" id="tabBtnByPark" onclick="switchParkTab('bypark')">By Park</button>
+      <button class="tab-btn" id="tabBtnAllRides" onclick="switchParkTab('allrides')">All Rides</button>
+    </div>
+    <div id="tabPanelByPark">
 
     <div class="park-detail" style="--park-color:var(--mk);" id="detail-75ea578a-adc8-4116-a54d-dccb60765ef9">
       <div class="park-detail-head">
@@ -556,6 +569,12 @@
         <dt>Dining</dt><dd>Yak & Yeti and Satu'li Canteen good midday options to dodge the heat</dd>
       </dl>
       <a class="map-link" href="https://disneyworld.disney.go.com/attractions/map/animal-kingdom/" target="_blank" rel="noopener">🗺️ Open Official Map</a>
+    </div>
+    </div>
+    <div id="tabPanelAllRides" style="display:none;">
+      <div id="allrides-content">
+        <p class="empty-note">Loading live wait times…</p>
+      </div>
     </div>
   </section>
 
@@ -873,18 +892,34 @@
     </div>
 
     <div class="park-group">
-      <div class="park-group-title">🎬 Hollywood Studios / Animal Kingdom Area</div>
-      <div class="item-card"><div class="item-top"><div class="item-name">Disney's Animal Kingdom Lodge</div><span class="window-pill">407-938-3000</span></div></div>
+      <div class="park-group-title">🎬 Hollywood Studios / EPCOT Area (cont.)</div>
+      <div class="item-card"><div class="item-top"><div class="item-name">Disney's Caribbean Beach Resort</div><span class="window-pill">407-934-3400</span></div></div>
+      <div class="item-card"><div class="item-top"><div class="item-name">Disney's Riviera Resort</div><span class="window-pill">407-828-7030</span></div></div>
+    </div>
+
+    <div class="park-group">
+      <div class="park-group-title">🌴 Animal Kingdom Area</div>
+      <div class="item-card"><div class="item-top"><div class="item-name">Disney's Animal Kingdom Lodge (Jambo House)</div><span class="window-pill">407-938-3000</span></div></div>
+      <div class="item-card"><div class="item-top"><div class="item-name">Disney's Animal Kingdom Villas (Kidani Village)</div><span class="window-pill">407-938-7400</span></div></div>
       <div class="item-card"><div class="item-top"><div class="item-name">Disney's Coronado Springs Resort</div><span class="window-pill">407-939-1000</span></div></div>
-      <div class="item-card"><div class="item-top"><div class="item-name">Disney's All-Star Resorts</div><span class="window-pill">407-939-5000</span></div></div>
+      <div class="item-card"><div class="item-top"><div class="item-name">Disney's All-Star Movies Resort</div><span class="window-pill">407-939-7000</span></div></div>
+      <div class="item-card"><div class="item-top"><div class="item-name">Disney's All-Star Music Resort</div><span class="window-pill">407-939-6000</span></div></div>
+      <div class="item-card"><div class="item-top"><div class="item-name">Disney's All-Star Sports Resort</div><span class="window-pill">407-939-5000</span></div></div>
+      <div class="item-card"><div class="item-top"><div class="item-name">Disney's Art of Animation Resort</div><span class="window-pill">407-938-7000</span></div></div>
     </div>
 
     <div class="park-group">
       <div class="park-group-title">🛍️ Disney Springs Area</div>
-      <div class="item-card"><div class="item-top"><div class="item-name">Disney's Port Orleans Resort</div><span class="window-pill">407-934-5000</span></div></div>
+      <div class="item-card"><div class="item-top"><div class="item-name">Disney's Port Orleans Resort – French Quarter</div><span class="window-pill">407-934-5000</span></div></div>
+      <div class="item-card"><div class="item-top"><div class="item-name">Disney's Port Orleans Resort – Riverside</div><span class="window-pill">407-934-6000</span></div></div>
       <div class="item-card"><div class="item-top"><div class="item-name">Disney's Old Key West Resort</div><span class="window-pill">407-827-7700</span></div></div>
       <div class="item-card"><div class="item-top"><div class="item-name">Disney's Saratoga Springs Resort</div><span class="window-pill">407-827-1100</span></div></div>
       <div class="item-card"><div class="item-top"><div class="item-name">Disney's Pop Century Resort</div><span class="window-pill">407-938-4000</span></div></div>
+    </div>
+
+    <div class="park-group">
+      <div class="park-group-title">🎖️ Military</div>
+      <div class="item-card"><div class="item-top"><div class="item-name">Shades of Green (on Disney property, active/retired military only)</div><span class="window-pill">407-824-3600</span></div></div>
     </div>
 
     <div class="park-group">
@@ -892,9 +927,10 @@
       <div class="item-card"><div class="item-top"><div class="item-name">Central Reservations</div><span class="window-pill">407-934-7639</span></div></div>
       <div class="item-card"><div class="item-top"><div class="item-name">Dining Reservations</div><span class="window-pill">407-939-3463</span></div></div>
       <div class="item-card"><div class="item-top"><div class="item-name">Lost &amp; Found</div><span class="window-pill">407-824-4245</span></div></div>
+      <div class="item-card"><div class="item-top"><div class="item-name">Main Switchboard (routes anywhere on property)</div><span class="window-pill">407-824-2222</span></div></div>
     </div>
 
-    <p style="font-size:12px;color:var(--text-dim);margin-top:4px;">Numbers reflect resort main/front desk lines and may change. If a resort doesn't pick up, Central Reservations can route you.</p>
+    <p style="font-size:12px;color:var(--text-dim);margin-top:4px;">Now covers all 25+ on-site resorts. Numbers reflect resort main/front desk lines and may change. If a resort doesn't pick up, the Main Switchboard can route you.</p>
   </section>
 
   <footer>
@@ -936,6 +972,20 @@ function setStatus(text, isErr){
   document.getElementById('liveDot').className = isErr ? 'dot err' : 'dot';
 }
 
+function switchParkTab(tab){
+  const byPark = document.getElementById('tabPanelByPark');
+  const allRides = document.getElementById('tabPanelAllRides');
+  const btnByPark = document.getElementById('tabBtnByPark');
+  const btnAllRides = document.getElementById('tabBtnAllRides');
+  if(tab === 'allrides'){
+    byPark.style.display = 'none'; allRides.style.display = 'block';
+    btnByPark.classList.remove('active'); btnAllRides.classList.add('active');
+  } else {
+    byPark.style.display = 'block'; allRides.style.display = 'none';
+    btnAllRides.classList.remove('active'); btnByPark.classList.add('active');
+  }
+}
+
 function updateClock(){
   const now = new Date();
   const dateEl = document.getElementById('stubDate');
@@ -971,6 +1021,7 @@ async function loadLiveData(){
     renderOverview(parkStats, wxRes);
     renderNext1Hour(liveRes);
     renderEntertainment(liveRes);
+    renderAllRides(liveRes);
     renderHorizonWindows(parkStats.earliestOpen, wxHourly);
     renderPetBoarding(parkStats.earliestRegularOpen, parkStats.latestRegularClose);
     document.getElementById('lastUpdated').textContent = "Live as of " + new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
@@ -1038,6 +1089,61 @@ function renderEntertainment(liveRes){
     html = `<p class="empty-note">No marquee entertainment schedule found in today's live feed yet — check back closer to park open, or confirm in My Disney Experience.</p>`;
   }
   document.getElementById('entertainment-content').innerHTML = html;
+}
+
+function llStatus(item){
+  const q = item.queue || {};
+  if(q.PAID_RETURN_TIME){
+    const p = q.PAID_RETURN_TIME;
+    if(p.state === "AVAILABLE" && p.price) return { text: p.price.formatted, cls: "ap" };
+    if(p.state === "FINISHED") return { text: "ILL sold out", cls: "" };
+    return { text: "ILL not yet open", cls: "" };
+  }
+  if(q.RETURN_TIME){
+    const r = q.RETURN_TIME;
+    if(r.state === "AVAILABLE" && r.returnStart){
+      return { text: "LL " + fmtShowTime(r.returnStart) + "–" + fmtShowTime(r.returnEnd), cls: "" };
+    }
+    if(r.state === "FINISHED") return { text: "LL sold out", cls: "" };
+    return { text: "LL not yet open", cls: "" };
+  }
+  return null;
+}
+
+function renderAllRides(liveRes){
+  const byPark = {};
+  PARK_ORDER.forEach(id => byPark[id] = []);
+  (liveRes.liveData||[]).forEach(item=>{
+    if(item.entityType === "ATTRACTION" && byPark[item.parkId]){
+      byPark[item.parkId].push(item);
+    }
+  });
+
+  let html = "";
+  PARK_ORDER.forEach(parkId=>{
+    const meta = PARK_META[parkId];
+    const rides = byPark[parkId].slice().sort((a,b)=>{
+      const wa = (a.queue && a.queue.STANDBY && a.queue.STANDBY.waitTime) ?? -1;
+      const wb = (b.queue && b.queue.STANDBY && b.queue.STANDBY.waitTime) ?? -1;
+      return wb - wa;
+    });
+    html += `<details class="park-group" open><summary class="park-group-title" style="cursor:pointer;">${meta.emoji} ${meta.name} (${rides.length})</summary>`;
+    rides.forEach(r=>{
+      const wait = r.queue && r.queue.STANDBY ? r.queue.STANDBY.waitTime : null;
+      const isDown = r.status && r.status !== "OPERATING";
+      const waitText = isDown ? r.status.replace(/_/g," ") : (typeof wait === "number" ? wait + " min" : "—");
+      const ll = llStatus(r);
+      html += `<div class="item-card" style="margin-bottom:6px;padding:10px 14px;">
+        <div class="item-top">
+          <div class="item-name" style="font-size:13.5px;">${r.name}</div>
+          <span class="window-pill ${isDown ? 'ap' : ''}">${waitText}</span>
+        </div>
+        ${ll ? `<div class="item-desc">${ll.text}</div>` : ''}
+      </div>`;
+    });
+    html += `</details>`;
+  });
+  document.getElementById('allrides-content').innerHTML = html;
 }
 
 function crowdLabel(avgWait){
