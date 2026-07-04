@@ -350,10 +350,7 @@
       <div class="sub">Live weather, park hours, wait times, and showtimes — pulled fresh every time you open this or tap refresh.</div>
     </div>
     <div class="ticket-stub">
-      <div class="stub-label">Today</div>
-      <div class="stub-value" id="stubDate">—</div>
-      <div class="stub-value" id="stubTime" style="color:var(--amber-ink);font-size:20px;margin-top:2px;">—</div>
-      <div class="stub-label" style="margin-top:10px;">Live Status</div>
+      <div class="stub-label">Live Status</div>
       <button id="refreshBtn" class="refresh-btn" onclick="loadLiveData()">↻ Refresh</button>
     </div>
   </div>
@@ -844,14 +841,6 @@ function setStatus(text, isErr){
   document.getElementById('liveDot').className = isErr ? 'dot err' : 'dot';
 }
 
-function updateClock(){
-  const now = new Date();
-  const dateEl = document.getElementById('stubDate');
-  const timeEl = document.getElementById('stubTime');
-  if(dateEl) dateEl.textContent = now.toLocaleDateString('en-US',{weekday:'short', month:'short', day:'numeric'});
-  if(timeEl) timeEl.textContent = now.toLocaleTimeString('en-US',{hour:'numeric', minute:'2-digit'});
-}
-
 function updateHorizonNow(){
   const now = new Date();
   const minsSince6am = (now.getHours()-6)*60 + now.getMinutes();
@@ -865,7 +854,6 @@ async function loadLiveData(){
   const btn = document.getElementById('refreshBtn');
   btn.disabled = true; btn.textContent = "↻ Loading…";
   setStatus("Refreshing live data…", false);
-  updateClock();
   updateHorizonNow();
   try{
     const [liveRes, schedRes, wxRes] = await Promise.all([
@@ -1103,8 +1091,6 @@ function renderNext1Hour(liveRes){
 }
 
 // Load on page open
-updateClock();
-setInterval(updateClock, 30000);
 updateHorizonNow();
 loadLiveData();
 </script>
