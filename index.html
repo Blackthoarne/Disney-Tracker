@@ -1155,6 +1155,8 @@ function llStatus(item){
 }
 
 function renderAllRides(liveRes){
+  window.__lastLiveRes = liveRes;
+  const filter = window.__ridesFilter || 'open';
   const byPark = {};
   PARK_ORDER.forEach(id => byPark[id] = []);
   (liveRes.liveData||[]).forEach(item=>{
@@ -1166,12 +1168,17 @@ function renderAllRides(liveRes){
   let html = "";
   PARK_ORDER.forEach(parkId=>{
     const meta = PARK_META[parkId];
-    const rides = byPark[parkId].slice().sort((a,b)=>{
+    let rides = byPark[parkId];
+    rides = rides.filter(r => filter === 'closed' ? (r.status && r.status !== "OPERATING") : (!r.status || r.status === "OPERATING"));
+    rides.sort((a,b)=>{
       const wa = (a.queue && a.queue.STANDBY && a.queue.STANDBY.waitTime) ?? -1;
       const wb = (b.queue && b.queue.STANDBY && b.queue.STANDBY.waitTime) ?? -1;
       return wb - wa;
     });
     html += `<details class="park-group" open><summary class="park-group-title" style="cursor:pointer;">${meta.emoji} ${meta.name} (${rides.length})</summary>`;
+    if(!rides.length){
+      html += `<p class="empty-note">${filter==='closed' ? 'Nothing down right now' : 'No rides in this view'}</p>`;
+    }
     rides.forEach(r=>{
       const wait = r.queue && r.queue.STANDBY ? r.queue.STANDBY.waitTime : null;
       const isDown = r.status && r.status !== "OPERATING";
@@ -1191,6 +1198,12 @@ function renderAllRides(liveRes){
   document.getElementById('allrides-content').innerHTML = html;
 }
 
+function setRidesFilter(f){
+  window.__ridesFilter = f;
+  document.getElementById('ridesFilterOpen').classList.toggle('active', f==='open');
+  document.getElementById('ridesFilterClosed').classList.toggle('active', f==='closed');
+  if(window.__lastLiveRes) renderAllRides(window.__lastLiveRes);
+}
 function renderHourlyPop(wxHourly){
   const el = document.getElementById('hourlyPop');
   if(!el || !wxHourly || !wxHourly.properties) return;
