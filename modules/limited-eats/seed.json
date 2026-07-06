@@ -1,0 +1,145 @@
+{
+  "module": "limited-eats",
+  "updatedAt": "2026-07-06T14:00:00Z",
+  "updatedBy": "seed",
+  "note": "Most of these tie to V.I.PASSHOLDER Summer Days, which runs May 1 – July 31, 2026. Items marked \"AP exclusive\" require a valid Annual Pass at purchase. Availability is while supplies last and subject to change — worth double-checking day-of via My Disney Experience.",
+  "groups": [
+    {
+      "title": "EPCOT",
+      "items": [
+        {
+          "name": "La Poutinerie — Québec: L'authentique & Spiced Apple Slushy",
+          "location": "Near the Canada Pavilion",
+          "desc": "New permanent-menu spot replacing Refreshment Port; poutine and a non-alcoholic frozen ginger-apple slushy.",
+          "pill": { "label": "Jul 1 – ongoing", "style": "default" },
+          "apExclusive": false,
+          "expires": null
+        },
+        {
+          "name": "Sunshine Seasons — new summer bowls",
+          "location": "Base of The Land Pavilion",
+          "desc": "Plant-Based Sofritas, Pork Carnitas, and Beef Barbacoa bowls, all cilantro-lime rice based.",
+          "pill": { "label": "Summer 2026", "style": "default" },
+          "apExclusive": false,
+          "expires": null
+        },
+        {
+          "name": "Parisian Pebble Cold Brew",
+          "location": "Joffrey's, EPCOT (part of AP Coffee Crawl)",
+          "desc": "Fruity cereal-flavored cold brew with cream, whipped cream, and fruity cereal on top.",
+          "pill": { "label": "Through Jul 31", "style": "ap" },
+          "apExclusive": true,
+          "expires": "2026-07-31"
+        }
+      ]
+    },
+    {
+      "title": "Disney's Animal Kingdom",
+      "items": [
+        {
+          "name": "Summer Haze & Hibiscus Spritz",
+          "location": "Yak & Yeti Restaurant",
+          "desc": "Summer Haze (Fords Gin, St. Germain elderflower) and a non-alcoholic Hibiscus Spritz; souvenir glass upgrade available.",
+          "pill": { "label": "Jun 1 – Jul 31", "style": "ap" },
+          "apExclusive": true,
+          "expires": "2026-07-31"
+        },
+        {
+          "name": "Carrot Cake Sundae",
+          "location": "Terra Treats",
+          "desc": "Vanilla ice cream, caramel, roasted pecans, and carrot cake crumbs with a birthday-cake shell.",
+          "pill": { "label": "Through Jul 31 (est.)", "style": "ap" },
+          "apExclusive": true,
+          "expires": "2026-07-31"
+        },
+        {
+          "name": "7-Layer Bar",
+          "location": "Kusafiri Coffee Shop and Bakery",
+          "desc": "Newly added bar-style dessert; not date-limited as of this writing.",
+          "pill": { "label": "Ongoing", "style": "default" },
+          "apExclusive": false,
+          "expires": null
+        },
+        {
+          "name": "Forbidden Mountain Cold Brew",
+          "location": "Joffrey's, Animal Kingdom (AP Coffee Crawl)",
+          "desc": "Cold brew with honey syrup, cream, whipped cream, and honey cereal.",
+          "pill": { "label": "Through Jul 31", "style": "ap" },
+          "apExclusive": true,
+          "expires": "2026-07-31"
+        }
+      ]
+    },
+    {
+      "title": "Disney's Hollywood Studios",
+      "items": [
+        {
+          "name": "Screen Time Swirl Float & Lilypad Lunch Box Tart",
+          "location": "Woody's Lunch Box, Toy Story Land",
+          "desc": "Toy Story 5 tie-in: vanilla soft-serve with Coca-Cola Zero Sugar, chocolate cookie crumbs, and a gummy frog; while supplies last.",
+          "pill": { "label": "Jun 19 – Jul 31", "style": "ap" },
+          "apExclusive": true,
+          "expires": "2026-07-31"
+        },
+        {
+          "name": "Rockin' Cold Brew",
+          "location": "Joffrey's, Hollywood Studios (AP Coffee Crawl)",
+          "desc": "Chocolate peanut butter cold brew with cream and chocolate-PB puff cereal on top.",
+          "pill": { "label": "Through Jul 31", "style": "ap" },
+          "apExclusive": true,
+          "expires": "2026-07-31"
+        }
+      ]
+    },
+    {
+      "title": "Magic Kingdom",
+      "items": [
+        {
+          "name": "Iced Double Berry Matcha",
+          "location": "Main Street Bakery (Starbucks) — also any WDW Starbucks",
+          "desc": "Berry-mellowed matcha; not currently marked as a limited-time item.",
+          "pill": { "label": "Ongoing", "style": "default" },
+          "apExclusive": false,
+          "expires": null
+        },
+        {
+          "name": "Lucky Star Cold Brew",
+          "location": "Joffrey's, Magic Kingdom (AP Coffee Crawl)",
+          "desc": "Cold brew with toasted marshmallow syrup, cream, whipped cream, and marshmallow cereal.",
+          "pill": { "label": "Through Jul 31", "style": "ap" },
+          "apExclusive": true,
+          "expires": "2026-07-31"
+        }
+      ]
+    },
+    {
+      "title": "Disney Springs",
+      "items": [
+        {
+          "name": "The Elote Old Fashioned",
+          "location": "Frontera Cocina",
+          "desc": "Mexican corn whiskey and corn liqueur cocktail, made for V.I.PASSHOLDER Summer Days.",
+          "pill": { "label": "May 1 – Jul 31", "style": "ap" },
+          "apExclusive": true,
+          "expires": "2026-07-31"
+        },
+        {
+          "name": "Creamsicle Spritz & Blackberry Bourbon Bramble",
+          "location": "Shine on Tap area, Disney Springs",
+          "desc": "Creamsicle Spritz (non-alcoholic, orange/vanilla/Sprite) and a Maker's Mark blackberry bourbon cocktail; exclusive pint glass and squeeze-bottle keepsakes available.",
+          "pill": { "label": "Through Jul 31", "style": "ap" },
+          "apExclusive": true,
+          "expires": "2026-07-31"
+        },
+        {
+          "name": "Signature drink pint glass",
+          "location": "Rainforest Café & T-REX",
+          "desc": "Limited-edition souvenir pint glass with any signature drink purchase; keyring clip also available.",
+          "pill": { "label": "Through Jul 31 (est.)", "style": "ap" },
+          "apExclusive": true,
+          "expires": "2026-07-31"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "module": "dole-whip",
+  "updatedAt": "2026-07-06T14:00:00Z",
+  "updatedBy": "seed",
+  "note": "⚠️ Walt Disney Imagineering recently filed permits for new signage at Aloha Isle — no closure confirmed, but worth checking day-of if it's your main stop.",
+  "groups": [
+    {
+      "title": "🏰 Magic Kingdom",
+      "items": [
+        {
+          "name": "Aloha Isle",
+          "location": "Adventureland, next to the Enchanted Tiki Room / Magic Carpets of Aladdin",
+          "desc": "The original spot. Pineapple, vanilla swirl, Pineapple Float, Pineapple Upside-Down Cake. Mobile order often disabled — plan to walk up."
+        },
+        {
+          "name": "Sunshine Tree Terrace",
+          "location": "Adventureland, near the hub",
+          "desc": "Orange, sometimes Strawberry, plus floats. Mobile order usually works here — good backup if Aloha Isle's line is long."
+        }
+      ]
+    },
+    {
+      "title": "🌐 EPCOT",
+      "items": [
+        {
+          "name": "Refreshment Outpost",
+          "location": "World Showcase, between China and Germany",
+          "desc": "Cherry-Pineapple Swirl, classic pineapple."
+        },
+        {
+          "name": "Swirled Showcase",
+          "location": "Near Port of Entry, World Celebration/World Showcase",
+          "desc": "Rotating swirl flavors — changes with whichever festival is running."
+        }
+      ]
+    },
+    {
+      "title": "🌴 Animal Kingdom",
+      "items": [
+        {
+          "name": "Tamu Tamu Refreshments",
+          "location": "Harambe Market",
+          "desc": "Pineapple. Reviewers consistently flag this as the weakest location resort-wide — melts faster, less fresh-tasting than other spots."
+        }
+      ]
+    },
+    {
+      "title": "🎬 Hollywood Studios",
+      "items": [
+        {
+          "name": "No dedicated location",
+          "location": "—",
+          "desc": "The one park without a classic Dole Whip stand as of this writing."
+        }
+      ]
+    },
+    {
+      "title": "🛍️ Disney Springs",
+      "items": [
+        {
+          "name": "Swirls on the Water",
+          "location": "The Landing",
+          "desc": "Deepest flavor bench anywhere on property: Pineapple, Vanilla, Strawberry, Raspberry, Lime, Lemon, Peach, Watermelon, Mango. Offers a 3-flavor Flight, a Sampler, Dark Chocolate Cone, and rotating seasonal sundaes."
+        },
+        {
+          "name": "Wine Bar George",
+          "location": "The Landing",
+          "desc": "Frozcato — a Dole Whip-based boozy specialty."
+        }
+      ]
+    },
+    {
+      "title": "🌊 Water Parks",
+      "items": [
+        {
+          "name": "Snack Shack",
+          "location": "Typhoon Lagoon",
+          "desc": "Pineapple, Strawberry, Vanilla, and Green Matcha tea. Both alcoholic and non-alcoholic versions."
+        },
+        {
+          "name": "Warming Hut",
+          "location": "Blizzard Beach",
+          "desc": "Orange, vanilla swirl."
+        }
+      ]
+    },
+    {
+      "title": "🏨 Resorts",
+      "items": [
+        {
+          "name": "Pineapple Lanai",
+          "location": "Disney's Polynesian Village Resort, near the lobby beneath 'Ohana",
+          "desc": "Classic pineapple. Barefoot Pool Bar and Oasis Pool Bar (also at the Poly) do boozy versions."
+        },
+        {
+          "name": "Fuel",
+          "location": "Swan & Dolphin Resort Complex",
+          "desc": "6-flavor frozen yogurt/Dole Whip bar: Pineapple, Chocolate, Vanilla, Strawberry, New York Cheesecake, Caramel Corn — mix 1-2 flavors with 10 toppings."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "module": "contacts",
+  "updatedAt": "2026-07-06T14:00:00Z",
+  "updatedBy": "seed",
+  "note": "Now covers all 25+ on-site resorts. Numbers reflect resort main/front desk lines and may change. If a resort doesn't pick up, the Main Switchboard can route you.",
+  "groups": [
+    {
+      "title": "🏰 Magic Kingdom Area",
+      "items": [
+        { "name": "Disney's Contemporary Resort", "pill": { "label": "407-824-1000", "style": "default" } },
+        { "name": "Disney's Grand Floridian Resort & Spa", "pill": { "label": "407-824-3000", "style": "default" } },
+        { "name": "Disney's Polynesian Village Resort", "pill": { "label": "407-824-2000", "style": "default" } },
+        { "name": "Disney's Wilderness Lodge", "pill": { "label": "407-824-3200", "style": "default" } },
+        { "name": "Disney's Fort Wilderness Resort", "pill": { "label": "407-824-2900", "style": "default" } }
+      ]
+    },
+    {
+      "title": "🌐 EPCOT Area",
+      "items": [
+        { "name": "Disney's Yacht Club Resort", "pill": { "label": "407-934-7000", "style": "default" } },
+        { "name": "Disney's Beach Club Resort", "pill": { "label": "407-934-8000", "style": "default" } },
+        { "name": "Disney's BoardWalk Inn", "pill": { "label": "407-939-5100", "style": "default" } },
+        { "name": "Walt Disney World Swan", "pill": { "label": "407-934-3000", "style": "default" } },
+        { "name": "Walt Disney World Dolphin", "pill": { "label": "407-934-4000", "style": "default" } }
+      ]
+    },
+    {
+      "title": "🎬 Hollywood Studios / EPCOT Area (cont.)",
+      "items": [
+        { "name": "Disney's Caribbean Beach Resort", "pill": { "label": "407-934-3400", "style": "default" } },
+        { "name": "Disney's Riviera Resort", "pill": { "label": "407-828-7030", "style": "default" } }
+      ]
+    },
+    {
+      "title": "🌴 Animal Kingdom Area",
+      "items": [
+        { "name": "Disney's Animal Kingdom Lodge (Jambo House)", "pill": { "label": "407-938-3000", "style": "default" } },
+        { "name": "Disney's Animal Kingdom Villas (Kidani Village)", "pill": { "label": "407-938-7400", "style": "default" } },
+        { "name": "Disney's Coronado Springs Resort", "pill": { "label": "407-939-1000", "style": "default" } },
+        { "name": "Disney's All-Star Movies Resort", "pill": { "label": "407-939-7000", "style": "default" } },
+        { "name": "Disney's All-Star Music Resort", "pill": { "label": "407-939-6000", "style": "default" } },
+        { "name": "Disney's All-Star Sports Resort", "pill": { "label": "407-939-5000", "style": "default" } },
+        { "name": "Disney's Art of Animation Resort", "pill": { "label": "407-938-7000", "style": "default" } }
+      ]
+    },
+    {
+      "title": "🛍️ Disney Springs Area",
+      "items": [
+        { "name": "Disney's Port Orleans Resort – French Quarter", "pill": { "label": "407-934-5000", "style": "default" } },
+        { "name": "Disney's Port Orleans Resort – Riverside", "pill": { "label": "407-934-6000", "style": "default" } },
+        { "name": "Disney's Old Key West Resort", "pill": { "label": "407-827-7700", "style": "default" } },
+        { "name": "Disney's Saratoga Springs Resort", "pill": { "label": "407-827-1100", "style": "default" } },
+        { "name": "Disney's Pop Century Resort", "pill": { "label": "407-938-4000", "style": "default" } }
+      ]
+    },
+    {
+      "title": "🎖️ Military",
+      "items": [
+        { "name": "Shades of Green (on Disney property, active/retired military only)", "pill": { "label": "407-824-3600", "style": "default" } }
+      ]
+    },
+    {
+      "title": "☎️ General",
+      "items": [
+        { "name": "Central Reservations", "pill": { "label": "407-934-7639", "style": "default" } },
+        { "name": "Dining Reservations", "pill": { "label": "407-939-3463", "style": "default" } },
+        { "name": "Lost & Found", "pill": { "label": "407-824-4245", "style": "default" } },
+        { "name": "Main Switchboard (routes anywhere on property)", "pill": { "label": "407-824-2222", "style": "default" } }
+      ]
+    }
+  ]
+}

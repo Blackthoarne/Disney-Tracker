@@ -1,0 +1,52 @@
+{
+  "module": "photopass",
+  "updatedAt": "2026-07-06T14:00:00Z",
+  "updatedBy": "seed",
+  "intro": "100+ locations resort-wide. Live map: My Disney Experience app → Map → filter \"PhotoPass\" (Mickey head icon). Tan vest + camera = cast member.",
+  "note": "",
+  "groups": [
+    {
+      "title": "🏰 Magic Kingdom",
+      "items": [
+        { "name": "Cinderella Castle", "desc": "Front courtyard, photographer stationed nearly all day." },
+        { "name": "Partners Statue", "desc": "Hub, Walt+Mickey statue." },
+        { "name": "Tangled restroom area", "desc": "Fantasyland, hanging lantern backdrop — night only." },
+        { "name": "Liberty Sq / Fantasyland / Tomorrowland bridges", "desc": "Castle-angle alt shots." },
+        { "name": "Tiny World Magic Shot", "desc": "Next to Cinderella Castle." }
+      ]
+    },
+    {
+      "title": "🌐 EPCOT",
+      "items": [
+        { "name": "Spaceship Earth", "desc": "Front, all-day coverage. Also Tiny World Magic Shot here." },
+        { "name": "World Showcase pavilions", "desc": "Most pavilions have a stationed photographer; fairy wings Magic Shot available World Showcase-wide." },
+        { "name": "World Celebration (central planter, Port of Entry)", "desc": "Rotating festival Magic Shots (seasonal)." }
+      ]
+    },
+    {
+      "title": "🎬 Hollywood Studios",
+      "items": [
+        { "name": "Hollywood Tower Hotel (Tower of Terror)", "desc": "Park icon, near-constant coverage." },
+        { "name": "Star Tours entrance", "desc": "Tiny World Magic Shot." },
+        { "name": "Toy Story Land / Hollywood Blvd / Sunset Blvd", "desc": "Capture Your Moment session locations (bookable, 20-40min)." }
+      ]
+    },
+    {
+      "title": "🌴 Animal Kingdom",
+      "items": [
+        { "name": "Tree of Life", "desc": "Park icon." },
+        { "name": "Garden Gate Gifts", "desc": "Near entrance." },
+        { "name": "Pandora – World of Avatar", "desc": "Tiny World Magic Shot. Natural/scenic shots throughout park." }
+      ]
+    },
+    {
+      "title": "📸 Other",
+      "items": [
+        { "name": "Disney Springs PhotoPass Studio", "desc": "Marketplace, green-screen/virtual backdrops, no reservation needed." },
+        { "name": "Signature Portrait Sessions (2026 new)", "desc": "Grand Floridian or Polynesian, $399/40min, premium resort portraits." },
+        { "name": "Ride photos", "desc": "Auto-captured: Space Mountain, Seven Dwarfs Mine Train, Tower of Terror + more. Included w/ Memory Maker or LL Multi Pass." },
+        { "name": "Water Parks", "desc": "Typhoon Lagoon, Blizzard Beach — PhotoPass available." }
+      ]
+    }
+  ]
+}

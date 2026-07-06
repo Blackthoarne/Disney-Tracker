@@ -1,0 +1,11 @@
+{
+  "id": "photopass",
+  "title": "PhotoPass Locations",
+  "navLabel": "PhotoPass",
+  "tag": "",
+  "badges": [{ "type": "curated", "label": "Curated" }],
+  "type": "curated",
+  "order": 120,
+  "slot": "main",
+  "enabled": true
+}

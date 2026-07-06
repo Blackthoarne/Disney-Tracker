@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>First Light — Curation Admin</title>
+<meta name="theme-color" content="#EAF4FB">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/app.css">
+<style>
+  .admin-wrap{ max-width:960px; margin:0 auto; padding:24px 20px 100px; }
+  .admin-head{ display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; margin-bottom:20px; }
+  .token-row{ display:flex; gap:8px; align-items:center; }
+  .token-row input{ font:inherit; padding:8px 12px; border:1px solid var(--line); border-radius:8px; min-width:220px; }
+  .mod-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:12px; }
+  .mod-card{ background:var(--bg-raised); border:1px solid var(--line); border-radius:10px; padding:16px; cursor:pointer; box-shadow:0 4px 14px rgba(27,42,65,0.06); }
+  .mod-card:hover{ border-color:var(--amber); }
+  .mod-card h3{ margin:0 0 6px; font-size:17px; }
+  .mod-meta{ font-size:12px; color:var(--text-dim); }
+  .warn-flag{ color:var(--bad); font-weight:600; }
+  .editor-grid{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  @media (max-width:820px){ .editor-grid{ grid-template-columns:1fr; } }
+  .panel{ background:var(--bg-raised); border:1px solid var(--line); border-radius:10px; padding:16px; }
+  .panel h3{ margin:0 0 12px; font-size:16px; }
+  .field{ margin-bottom:10px; }
+  .field label{ display:block; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-faint); margin-bottom:3px; }
+  .field input, .field textarea, .field select{ width:100%; font:inherit; padding:7px 10px; border:1px solid var(--line); border-radius:8px; background:var(--bg); }
+  .field textarea{ resize:vertical; }
+  .group-box{ border:1px solid var(--line); border-radius:10px; padding:12px; margin-bottom:12px; background:var(--bg); }
+  .item-box{ border:1px dashed var(--line); border-radius:8px; padding:10px; margin-bottom:8px; }
+  .row-inline{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+  .row-inline .field{ flex:1 1 120px; margin-bottom:6px; }
+  .mini-btn{ font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.05em; background:var(--bg-inset); color:var(--text-dim); border:1px solid var(--line); padding:5px 10px; border-radius:999px; cursor:pointer; }
+  .mini-btn.danger{ color:var(--bad); border-color:rgba(201,74,54,.4); background:rgba(201,74,54,.06); }
+  #rawJson{ width:100%; min-height:220px; font-family:ui-monospace,Menlo,monospace; font-size:12px; }
+  .save-bar{ display:flex; gap:10px; align-items:center; margin:16px 0; flex-wrap:wrap; }
+  .toast{ font-size:13px; }
+  .toast.ok{ color:var(--ok); }
+  .toast.err{ color:var(--bad); }
+  .backup-item{ display:flex; justify-content:space-between; align-items:center; gap:10px; font-size:12.5px; padding:6px 0; border-bottom:1px solid var(--line); }
+  .hidden{ display:none; }
+</style>
+</head>
+<body>
+<div class="admin-wrap">
+  <div class="admin-head">
+    <div>
+      <h1 style="margin:0;font-size:26px;">First Light — Curation Admin</h1>
+      <div class="mod-meta">Edit curated content and publish instantly. Changes are backed up automatically.</div>
+    </div>
+    <div class="token-row">
+      <input type="password" id="tokenInput" placeholder="Admin token" autocomplete="off">
+      <button class="mini-btn" id="tokenSave">Remember</button>
+    </div>
+  </div>
+
+  <div id="listView">
+    <div class="mod-grid" id="modGrid"><p class="empty-note">Loading curated modules…</p></div>
+  </div>
+
+  <div id="editView" class="hidden">
+    <div class="save-bar">
+      <button class="mini-btn" id="backBtn">← All modules</button>
+      <b id="editTitle"></b>
+      <button class="refresh-btn" id="saveBtn" style="margin:0;">Publish</button>
+      <button class="mini-btn" id="rawToggle">Raw JSON</button>
+      <span class="toast" id="toast"></span>
+    </div>
+    <div class="editor-grid">
+      <div class="panel">
+        <h3>Editor</h3>
+        <div id="formEditor"></div>
+        <div id="rawWrap" class="hidden">
+          <div class="field"><label>Raw JSON (advanced)</label><textarea id="rawJson"></textarea></div>
+          <button class="mini-btn" id="rawApply">Apply JSON to form</button>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>Live preview</h3>
+        <div id="preview"></div>
+        <hr style="border:none;border-top:1px solid var(--line);margin:16px 0;">
+        <h3>Backups</h3>
+        <div id="backups"><p class="empty-note">—</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="/admin/admin.js"></script>
+</body>
+</html>

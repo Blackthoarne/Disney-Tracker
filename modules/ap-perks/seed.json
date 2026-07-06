@@ -1,0 +1,58 @@
+{
+  "module": "ap-perks",
+  "updatedAt": "2026-07-06T14:00:00Z",
+  "updatedBy": "seed",
+  "intro": "V.I.PASSHOLDER Summer Days — thru Jul 31, 2026. Present AP in My Disney Experience + photo ID.",
+  "note": "",
+  "groups": [
+    {
+      "title": "🌐 EPCOT",
+      "items": [
+        { "name": "Passholder Lounge", "desc": "Morocco Pavilion (former Restaurant Marrakesh). Snacks, water, mint tea, PhotoPass shot, free button. 11AM-7PM." },
+        { "name": "Character Meet — Mickey's Pals", "desc": "Imagination! Pavilion, 10AM-6PM." },
+        { "name": "40% Dining Discount", "desc": "Mon-Thu, select spots, food + non-alc only." },
+        { "name": "Woody/Buzz Magnet", "desc": "Creations Shop." },
+        { "name": "Mickey Chocolate Cake Pop", "desc": "Karamell-Küche, Germany Pavilion." },
+        { "name": "Passholder Tumbler (mobile order)", "desc": "Connections Eatery, Regal Eagle Smokehouse." }
+      ]
+    },
+    {
+      "title": "🏰 Magic Kingdom",
+      "items": [
+        { "name": "20% Off Lunch/Dinner", "desc": "Be Our Guest (lunch only), Crystal Palace (lunch+dinner). Mon-Thu." }
+      ]
+    },
+    {
+      "title": "🌴 Animal Kingdom",
+      "items": [
+        { "name": "4 Exclusive Drinks", "desc": "Jun1-Jul31. Pint glass + keyring @ Rainforest Café." },
+        { "name": "Popcorn Bucket (exclusive here)", "desc": "Chakranadi cart, near Maharajah Jungle Trek. Moved from all 4 parks to AK-only Jun1." },
+        { "name": "Passholder Tumbler (mobile order)", "desc": "Pizzafari." }
+      ]
+    },
+    {
+      "title": "🎬 Hollywood Studios",
+      "items": [
+        { "name": "Passholder Tumbler (mobile order)", "desc": "Dockside Diner, Backlot Express." }
+      ]
+    },
+    {
+      "title": "🛍️ Disney Springs",
+      "items": [
+        { "name": "V.I.Passholder Donut", "desc": "Everglazed Donuts & Cold Brew." },
+        { "name": "Squeeze Bottle", "desc": "Homecomin', Splitsville (w/ purchase)." },
+        { "name": "Keyring", "desc": "Retail Village, The Dino-Store (T-REX)." },
+        { "name": "20% Off Food+Non-Alc", "desc": "Paddlefish, Terralina Crafted Italian." },
+        { "name": "New Drinks", "desc": "Coca-Cola Store — Summer Refresher & more." }
+      ]
+    },
+    {
+      "title": "☎️ Year-Round (All Parks)",
+      "items": [
+        { "name": "Standard Discounts", "desc": "20% merch · up to 20% dining · free parking · 15% golf · PhotoPass print discount." },
+        { "name": "Resort Room Discounts", "desc": "Up to 40% off select rooms, most nights May1-Jul29 (4+ nights) · 30% off Swan/Dolphin." },
+        { "name": "V.I.Passholder Support", "pill": { "label": "407-939-7277", "style": "default" } }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "module": "adults-only",
+  "updatedAt": "2026-07-06T14:00:00Z",
+  "updatedBy": "seed",
+  "intro": "21+, valid ID required. Drink responsibly, hydrate between stops, use Disney transport (never drive).",
+  "note": "",
+  "groups": [
+    {
+      "title": "🚝 Monorail Resort Bar Crawl",
+      "note": "No park ticket needed — free Resort Monorail loop. 3-5hrs full crawl.",
+      "items": [
+        { "name": "1. Disney's Contemporary Resort", "desc": "Steakhouse 71 Lounge — 1971 Sunset cocktail. Also: California Grill Lounge (fireworks view)." },
+        { "name": "2. Disney's Polynesian Village Resort", "desc": "Trader Sam's Grog Grotto — Uh-Oa or HippopotoMai-Tai (long wait, no windows/fireworks view). Backup: Trader Sam's Tiki Terrace (same menu, outdoor). Also: Tambu Lounge — Lapu Lapu." },
+        { "name": "3. Disney's Grand Floridian Resort & Spa", "desc": "Enchanted Rose — Lavender Fog or espresso martini. Also: Citrico's Lounge (no reservation needed)." },
+        { "name": "Route", "desc": "TTC → Poly → Grand Floridian → Contemporary → TTC (loop, any direction/start point). Monorail runs 30min before MK open to 1hr after close." }
+      ]
+    },
+    {
+      "title": "🌍 EPCOT — Drinking Around the World",
+      "note": "11 pavilions, World Showcase, 1.2mi loop. Most start Mexico or Canada, go clockwise. 4-6hrs.",
+      "items": [
+        { "name": "1. Mexico", "desc": "La Cava del Tequila — Avocado Margarita. Faster: Choza de Margarita (frozen)." },
+        { "name": "2. Norway", "desc": "Kringla Bakeri og Kafe — Viking Coffee (w/ aquavit) or Nordic Draft Beer." },
+        { "name": "3. China", "desc": "Joy of Tea — Tipsy Ducks in Love (bourbon/black tea) or Dragon Butterfly (gin/vodka/boba)." },
+        { "name": "4. Africa Outpost", "desc": "Refreshment Outpost — seasonal, rotates w/ festivals." },
+        { "name": "5. Germany", "desc": "Sommerfest — Schöfferhofer Pink Grapefruit Hefeweizen. Hidden: Weinkeller back-of-shop bar (Mozart Chocolate Liqueur)." },
+        { "name": "6. Italy", "desc": "Tutto Gusto Wine Cellar — Italian wine flight/limoncello flight. Or Gelateria Toscana — Italian Margarita (frozen)." },
+        { "name": "7. American Adventure", "desc": "Regal Eagle Smokehouse — Samuel Adams Boston Lager or Moonshine Sour. Good midpoint food stop." },
+        { "name": "8. Japan", "desc": "Kabuki Cafe — Violet Sake or Sake Mist (flavored shaved-ice). Hidden: Sake Bar upstairs (Mitsukoshi/Teppan Edo area)." },
+        { "name": "9. Morocco", "desc": "Spice Road Table bar — Moroccarita or signature sangria." },
+        { "name": "10. France", "desc": "Les Vins de France (hidden shop bar) or Grand Marnier slushy." },
+        { "name": "11. United Kingdom", "desc": "Rose & Crown Pub — half cider/half lager, or gin selection." },
+        { "name": "12. Canada", "desc": "Popcorn cart — Ottawa Apple (Crown Royal/maple/cranberry). Hidden: Trading Post Refreshments (back of gift shop)." },
+        { "name": "Cost estimate", "desc": "$11-18/drink avg, ~$120-150+/person for full 11-pavilion crawl." }
+      ]
+    }
+  ]
+}

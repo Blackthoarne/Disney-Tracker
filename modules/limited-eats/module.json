@@ -1,0 +1,11 @@
+{
+  "id": "limited-eats",
+  "title": "Limited-Time Eats & Drinks",
+  "navLabel": "Limited-Time Eats",
+  "tag": "Bonus Section",
+  "badges": [{ "type": "curated", "label": "Curated" }],
+  "type": "curated",
+  "order": 70,
+  "slot": "main",
+  "enabled": true
+}

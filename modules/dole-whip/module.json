@@ -1,0 +1,11 @@
+{
+  "id": "dole-whip",
+  "title": "Dole Whip Finder",
+  "navLabel": "Dole Whip",
+  "tag": "",
+  "badges": [{ "type": "curated", "label": "Curated" }],
+  "type": "curated",
+  "order": 80,
+  "slot": "main",
+  "enabled": true
+}

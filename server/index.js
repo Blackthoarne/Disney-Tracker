@@ -9,6 +9,15 @@ import { TTLCache } from "./lib/cache.js";
 import { fetchJson } from "./lib/upstream.js";
 import { validKey, readKey, writeKey, MAX_BODY } from "./lib/store.js";
 import { loadModules, getRegistry, matchRoute } from "./lib/modules.js";
+import {
+  validModule,
+  checkAuth,
+  seedCurated,
+  getCurated,
+  putCurated,
+  listBackups,
+  restoreBackup,
+} from "./lib/curated.js";
 
 const startedAt = Date.now();
 const cache = new TTLCache();
@@ -71,6 +80,29 @@ function readBody(req, limit = MAX_BODY) {
     req.on("end", () => resolve(Buffer.concat(chunks)));
     req.on("error", reject);
   });
+}
+
+// Admin authorization: requires Authorization: Bearer <ADMIN_TOKEN>.
+// If ADMIN_TOKEN is unset, writes are disabled entirely (403).
+function authorizeAdmin(req) {
+  return checkAuth(config.adminToken, req.headers["authorization"]);
+}
+
+// Read + parse a JSON request body. On error it responds and returns undefined.
+async function readJsonBody(req, res) {
+  let body;
+  try {
+    body = await readBody(req);
+  } catch {
+    sendJson(res, 413, { ok: false, error: "Payload too large" });
+    return undefined;
+  }
+  try {
+    return JSON.parse(body.toString("utf8") || "null");
+  } catch {
+    sendJson(res, 400, { ok: false, error: "Invalid JSON" });
+    return undefined;
+  }
 }
 
 // Context handed to module server.js route handlers.
@@ -149,6 +181,52 @@ async function handle(req, res) {
     });
   }
 
+  // ---- curated content ----
+  if (path.startsWith("/api/curated/")) {
+    const rest = path.slice("/api/curated/".length);
+    const [module, sub] = rest.split("/");
+    if (!validModule(module)) return sendJson(res, 400, { ok: false, error: "Invalid module" });
+
+    // GET /api/curated/:module — public read.
+    if (!sub && method === "GET") {
+      const doc = await getCurated(module);
+      if (doc == null) return sendJson(res, 404, { ok: false, error: "Not found" });
+      return sendJson(res, 200, doc);
+    }
+
+    // GET /api/curated/:module/backups — public list (contents need auth to restore).
+    if (sub === "backups" && method === "GET") {
+      return sendJson(res, 200, { module, backups: await listBackups(module) });
+    }
+
+    // Everything below writes — require the admin token.
+    const auth = authorizeAdmin(req);
+    if (!auth.ok) return sendJson(res, auth.status, { ok: false, error: auth.error });
+
+    // PUT /api/curated/:module — publish a new version (snapshots the old one).
+    if (!sub && (method === "PUT" || method === "POST")) {
+      const parsed = await readJsonBody(req, res);
+      if (parsed === undefined) return; // readJsonBody already responded
+      await putCurated(module, parsed);
+      return sendJson(res, 200, { ok: true, module });
+    }
+
+    // POST/PUT /api/curated/:module/restore { name } — restore from a backup.
+    if (sub === "restore" && (method === "POST" || method === "PUT")) {
+      const body = await readJsonBody(req, res);
+      if (body === undefined) return;
+      if (!body || !body.name) return sendJson(res, 400, { ok: false, error: "Missing backup name" });
+      try {
+        await restoreBackup(module, body.name);
+      } catch (err) {
+        return sendJson(res, 400, { ok: false, error: err.message });
+      }
+      return sendJson(res, 200, { ok: true, module, restored: body.name });
+    }
+
+    return sendJson(res, 405, { ok: false, error: "Method not allowed" });
+  }
+
   // ---- persistent JSON store ----
   if (path.startsWith("/api/store/")) {
     const key = decodeURIComponent(path.slice("/api/store/".length));
@@ -223,6 +301,7 @@ const server = http.createServer((req, res) => {
 
 async function start() {
   await loadModules();
+  await seedCurated();
   server.listen(config.port, () => {
     console.log(
       `First Light listening on :${config.port}  ` +
