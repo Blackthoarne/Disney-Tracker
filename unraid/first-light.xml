@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>FirstLight</Name>
+  <Repository>ghcr.io/blackthoarne/disney-tracker:latest</Repository>
+  <Registry>https://github.com/Blackthoarne/Disney-Tracker/pkgs/container/disney-tracker</Registry>
+  <Network>bridge</Network>
+  <MyIP/>
+  <Shell>sh</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://github.com/Blackthoarne/Disney-Tracker/issues</Support>
+  <Project>https://github.com/Blackthoarne/Disney-Tracker</Project>
+  <Overview>First Light — Disney Edition. Live Walt Disney World wait times, park hours, weather and showtimes, plus curated trip guides (limited-time eats, Dole Whip finder, AP perks, PhotoPass, resort contacts). Zero-dependency Node.js app; data persists in appdata. Set an Admin Token to enable the /admin curation editor.</Overview>
+  <Category>Tools: Status:Stable</Category>
+  <WebUI>http://[IP]:[PORT:8080]/</WebUI>
+  <TemplateURL/>
+  <Icon>https://raw.githubusercontent.com/Blackthoarne/Disney-Tracker/main/public/icon-192.png</Icon>
+  <ExtraParams/>
+  <PostArgs/>
+  <CPUset/>
+  <DateInstalled/>
+  <DonateText/>
+  <DonateLink/>
+  <Description>First Light — Disney Edition. Live WDW wait times, park hours, weather and showtimes, plus curated trip guides.</Description>
+  <Networking>
+    <Mode>bridge</Mode>
+    <Publish>
+      <Port>
+        <HostPort>8080</HostPort>
+        <ContainerPort>8080</ContainerPort>
+        <Protocol>tcp</Protocol>
+      </Port>
+    </Publish>
+  </Networking>
+  <Data>
+    <Volume>
+      <HostDir>/mnt/user/appdata/first-light</HostDir>
+      <ContainerDir>/config</ContainerDir>
+      <Mode>rw</Mode>
+    </Volume>
+  </Data>
+  <Environment>
+    <Variable>
+      <Value>America/New_York</Value>
+      <Name>TZ</Name>
+      <Mode/>
+    </Variable>
+    <Variable>
+      <Value/>
+      <Name>ADMIN_TOKEN</Name>
+      <Mode/>
+    </Variable>
+  </Environment>
+  <Config Name="WebUI Port" Target="8080" Default="8080" Mode="tcp" Description="Port the dashboard listens on" Type="Port" Display="always" Required="true" Mask="false">8080</Config>
+  <Config Name="AppData" Target="/config" Default="/mnt/user/appdata/first-light" Mode="rw" Description="Persistent data: store, curated content, backups" Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/first-light</Config>
+  <Config Name="TZ" Target="TZ" Default="America/New_York" Mode="" Description="Container timezone (park-local)" Type="Variable" Display="always" Required="true" Mask="false">America/New_York</Config>
+  <Config Name="Admin Token" Target="ADMIN_TOKEN" Default="" Mode="" Description="Enables /admin and curated content edits. Leave blank to disable writes." Type="Variable" Display="always" Required="false" Mask="true"/>
+</Container>

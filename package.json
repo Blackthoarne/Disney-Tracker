@@ -1,0 +1,16 @@
+{
+  "name": "first-light-disney",
+  "version": "1.0.0",
+  "description": "First Light — Disney Edition: a self-hosted, zero-dependency live Walt Disney World dashboard with active curation.",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js",
+    "test": "node --test server/test"
+  },
+  "license": "MIT"
+}
