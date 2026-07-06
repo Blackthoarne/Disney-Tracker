@@ -2,13 +2,14 @@
   "name": "First Light — Disney Edition",
   "short_name": "First Light",
   "description": "Live Walt Disney World trip intelligence — weather, wait times, hours, and showtimes",
-  "start_url": "index.html",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#EAF4FB",
   "theme_color": "#EAF4FB",
   "icons": [
-    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
   ]
 }

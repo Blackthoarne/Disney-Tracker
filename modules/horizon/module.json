@@ -1,0 +1,12 @@
+{
+  "id": "horizon",
+  "title": "Horizon",
+  "navLabel": "Horizon",
+  "tag": "",
+  "badges": [],
+  "type": "live",
+  "order": 0,
+  "slot": "header",
+  "nav": false,
+  "enabled": true
+}

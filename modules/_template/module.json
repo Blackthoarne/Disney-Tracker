@@ -1,0 +1,12 @@
+{
+  "id": "template",
+  "title": "Template Module",
+  "navLabel": "Template",
+  "tag": "Example",
+  "badges": [{ "type": "live", "label": "Live" }],
+  "type": "live",
+  "order": 999,
+  "slot": "main",
+  "nav": true,
+  "enabled": true
+}

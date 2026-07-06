@@ -8,9 +8,13 @@ import { safeJoin, sendFile, notFound } from "./lib/static.js";
 import { TTLCache } from "./lib/cache.js";
 import { fetchJson } from "./lib/upstream.js";
 import { validKey, readKey, writeKey, MAX_BODY } from "./lib/store.js";
+import { loadModules, getRegistry, matchRoute } from "./lib/modules.js";
 
 const startedAt = Date.now();
 const cache = new TTLCache();
+
+// Files inside modules/ that may be served to the browser.
+const MODULE_EXT = new Set([".js", ".css", ".json", ".html"]);
 
 // ---- upstream URLs ----------------------------------------------------------
 
@@ -21,18 +25,12 @@ const UP = {
   hourly: () => `https://api.weather.gov/gridpoints/${config.weatherGrid}/forecast/hourly`,
 };
 
-const TTL = {
-  live: 60_000,
-  schedule: 15 * 60_000,
-  weather: 10 * 60_000,
-};
+const TTL = { live: 60_000, schedule: 15 * 60_000, weather: 10 * 60_000 };
 
-// Cached fetch of a named upstream resource → { value, fetchedAt, stale, cached }
 function cachedFetch(key, ttl, url) {
   return cache.fetch(key, ttl, () => fetchJson(url));
 }
 
-// Shape a cache result into a response envelope with a meta object.
 function envelope(result) {
   return {
     ...result.value,
@@ -75,6 +73,14 @@ function readBody(req, limit = MAX_BODY) {
   });
 }
 
+// Context handed to module server.js route handlers.
+const routeCtx = {
+  cache,
+  fetchJson,
+  config,
+  store: { readKey, writeKey },
+};
+
 // ---- request router ---------------------------------------------------------
 
 async function handle(req, res) {
@@ -88,8 +94,23 @@ async function handle(req, res) {
       ok: true,
       version: config.version,
       uptime: Math.round((Date.now() - startedAt) / 1000),
-      modules: [],
+      modules: getRegistry().map((m) => m.id),
     });
+  }
+
+  // Module registry.
+  if (path === "/api/modules" && method === "GET") {
+    return sendJson(res, 200, { modules: getRegistry() });
+  }
+
+  // Per-module server.js routes: /api/modules/<id>/<path>
+  if (path.startsWith("/api/modules/")) {
+    const route = matchRoute(method, path);
+    if (route) {
+      const out = await route.fn(req, res, routeCtx);
+      if (!res.headersSent && out !== undefined) sendJson(res, 200, out);
+      return;
+    }
   }
 
   // ---- live/park data (proxy + TTL cache + stale-on-error) ----
@@ -161,10 +182,33 @@ async function handle(req, res) {
     return sendJson(res, 404, { ok: false, error: "Unknown endpoint" });
   }
 
-  // ---- static: the current single-file app (Phase 1 serves the repo root) ----
+  // ---- static: module files (/modules/<id>/<file>, whitelisted) ----
+  if (path.startsWith("/modules/")) {
+    const abs = safeJoin(config.modulesDir, path.slice("/modules".length));
+    if (await sendFile(res, abs, { allowExt: MODULE_EXT })) return;
+    if (res.headersSent) return; // sendFile already answered (e.g. 403)
+    return notFound(res);
+  }
+
+  // ---- static: admin editor (/admin) ----
+  if (path === "/admin" || path.startsWith("/admin/")) {
+    const rel = path === "/admin" || path === "/admin/" ? "/index.html" : path.slice("/admin".length);
+    const abs = safeJoin(config.adminDir, rel);
+    if (await sendFile(res, abs)) return;
+    if (res.headersSent) return;
+    return notFound(res);
+  }
+
+  // ---- static: public/ (the PWA shell) ----
   const rel = path === "/" ? "/index.html" : path;
-  const abs = safeJoin(config.repoRoot, rel);
+  const abs = safeJoin(config.publicDir, rel);
   if (await sendFile(res, abs)) return;
+
+  // SPA-ish fallback: serve the shell for unknown non-file paths.
+  if (!path.includes(".")) {
+    const shell = safeJoin(config.publicDir, "/index.html");
+    if (await sendFile(res, shell)) return;
+  }
 
   return notFound(res);
 }
@@ -177,10 +221,16 @@ const server = http.createServer((req, res) => {
   });
 });
 
-server.listen(config.port, () => {
-  console.log(
-    `First Light listening on :${config.port}  (data=${config.dataDir}, tz=${config.tz})`
-  );
-});
+async function start() {
+  await loadModules();
+  server.listen(config.port, () => {
+    console.log(
+      `First Light listening on :${config.port}  ` +
+        `(data=${config.dataDir}, tz=${config.tz}, modules=${getRegistry().length})`
+    );
+  });
+}
+
+start();
 
 export { server, handle, cache };

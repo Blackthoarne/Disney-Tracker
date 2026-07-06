@@ -1,0 +1,11 @@
+{
+  "id": "entertainment",
+  "title": "Entertainment",
+  "navLabel": "Entertainment",
+  "tag": "Section 7",
+  "badges": [{ "type": "live", "label": "Live" }],
+  "type": "live",
+  "order": 60,
+  "slot": "main",
+  "enabled": true
+}

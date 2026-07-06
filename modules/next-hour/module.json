@@ -1,0 +1,11 @@
+{
+  "id": "next-hour",
+  "title": "Next Hour",
+  "navLabel": "Next Hour",
+  "tag": "Bonus",
+  "badges": [{ "type": "live", "label": "Live" }],
+  "type": "live",
+  "order": 20,
+  "slot": "main",
+  "enabled": true
+}

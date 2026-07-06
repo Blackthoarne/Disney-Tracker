@@ -1,0 +1,12 @@
+{
+  "id": "favorites",
+  "title": "Pinned Favorites",
+  "navLabel": "Favorites",
+  "tag": "",
+  "badges": [{ "type": "live", "label": "Live" }],
+  "type": "live",
+  "order": 5,
+  "slot": "main",
+  "nav": false,
+  "enabled": true
+}

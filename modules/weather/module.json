@@ -1,0 +1,11 @@
+{
+  "id": "weather",
+  "title": "Weather",
+  "navLabel": "Weather",
+  "tag": "Section 2",
+  "badges": [{ "type": "live", "label": "Live" }],
+  "type": "live",
+  "order": 30,
+  "slot": "main",
+  "enabled": true
+}

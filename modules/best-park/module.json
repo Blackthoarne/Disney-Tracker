@@ -1,0 +1,11 @@
+{
+  "id": "best-park",
+  "title": "Best Park Today",
+  "navLabel": "Best Park",
+  "tag": "Section 3",
+  "badges": [{ "type": "live", "label": "Live" }],
+  "type": "live",
+  "order": 40,
+  "slot": "main",
+  "enabled": true
+}

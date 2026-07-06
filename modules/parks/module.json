@@ -1,0 +1,14 @@
+{
+  "id": "parks",
+  "title": "Park Details",
+  "navLabel": "Park Details",
+  "tag": "Section 4",
+  "badges": [
+    { "type": "live", "label": "Live" },
+    { "type": "curated", "label": "+ Curated" }
+  ],
+  "type": "live",
+  "order": 50,
+  "slot": "main",
+  "enabled": true
+}

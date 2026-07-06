@@ -1,0 +1,11 @@
+{
+  "id": "pet-boarding",
+  "title": "Pet Boarding",
+  "navLabel": "Pet Boarding",
+  "tag": "Best Friends Pet Care",
+  "badges": [{ "type": "live", "label": "Live Hours" }],
+  "type": "live",
+  "order": 90,
+  "slot": "main",
+  "enabled": true
+}
