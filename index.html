@@ -379,6 +379,7 @@
         <div class="stub-label" style="margin-bottom:4px;">Today</div>
         <div class="stub-value" id="stubDate" style="font-size:17px;">—</div>
         <div class="stub-value" id="stubTime" style="color:var(--amber-ink);font-size:22px;margin-top:2px;">—</div>
+        <div class="stub-value" id="stubTemp" style="font-size:15px;margin-top:4px;">—</div>
       </div>
     </div>
   </div>
@@ -1168,6 +1169,7 @@ async function loadLiveData(){
       fetch(`${WX_GRID}/forecast/hourly`).then(r=>r.json())
     ]);
     renderWeather(wxRes);
+    renderHeaderTemp(wxRes);
     renderHourlyPop(wxHourly);
     const parkStats = renderParks(liveRes, schedRes);
     renderOverview(parkStats, wxRes);
@@ -1183,6 +1185,13 @@ async function loadLiveData(){
     setStatus("Couldn't reach live data — check your connection and tap Refresh. (" + e.message + ")", true);
   }
   btn.disabled = false; btn.textContent = "↻ Refresh";
+}
+
+function renderHeaderTemp(wx){
+  const el = document.getElementById('stubTemp');
+  if(!el) return;
+  const today = wx.properties.periods.find(p=>p.isDaytime) || wx.properties.periods[0];
+  el.textContent = today.temperature + "°" + today.temperatureUnit + " " + today.shortForecast;
 }
 
 function renderWeather(wx){
