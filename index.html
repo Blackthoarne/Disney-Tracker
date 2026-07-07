@@ -385,6 +385,10 @@
   </div>
 </div>
 <div class="live-status" id="liveStatus"><span class="dot" id="liveDot"></span> <span id="liveStatusText">Loading live data…</span></div>
+<div class="wrap" style="padding-bottom:0;"><div class="tab-bar" style="margin:14px 0 0;">
+  <button class="tab-btn active" id="resortBtnWdw" onclick="switchResort('wdw')">Walt Disney World</button>
+  <button class="tab-btn" id="resortBtnDl" onclick="switchResort('dl')">Disneyland</button>
+</div></div>
 
 <!-- Horizon line: functional 15-hour timeline, live rope-drop + storm windows -->
 <div class="horizon">
@@ -410,17 +414,18 @@
 
   <nav class="quicknav">
     <a href="#overview">Overview</a>
-    <a href="#next1">Next Hour</a>
-    <a href="#weather">Weather</a>
     <a href="#bestpark">Best Park</a>
     <a href="#parks">Park Details</a>
+    <a href="#next1">Next Hour</a>
+    <a href="#weather">Weather</a>
     <a href="#entertainment">Entertainment</a>
+    <a href="#facilities">Restrooms/First Aid</a>
     <a href="#limited">Limited-Time Eats</a>
     <a href="#dolewhip">Dole Whip</a>
-    <a href="#petboarding">Pet Boarding</a>
-    <a href="#apperks">AP Perks</a>
     <a href="#adults">Adults Only</a>
     <a href="#photopass">PhotoPass</a>
+    <a href="#apperks">AP Perks</a>
+    <a href="#petboarding">Pet Boarding</a>
     <a href="#contacts">Resort Contacts</a>
   </nav>
 
@@ -458,6 +463,7 @@
       </div>
     </div>
 
+    <div id="heatAlert"></div>
     <div class="alert-banner">
       <span>🎆</span>
       <div><b>Storms are possible this afternoon</b> — Florida summer weather can turn quickly. Arrive at rope drop, book Lightning Lane the moment your window opens, and use the live wait times below to plan around any weather delays.</div>
@@ -466,39 +472,6 @@
     <div class="refresh-note"><span class="dot"></span> <span id="lastUpdated">Not yet loaded</span> · tap Refresh above anytime for current numbers</div>
   </section>
 
-  <!-- NEXT 1 HOUR -->
-  <section id="next1">
-    <div class="section-head">
-      <h2>Next Hour <span class="live-tag">Live</span></h2>
-      <span class="section-tag">Bonus</span>
-    </div>
-    <div id="next1-content">
-      <p class="empty-note">Loading live wait-time forecasts…</p>
-    </div>
-  </section>
-
-  <!-- 2. WEATHER -->
-  <section id="weather">
-    <div class="section-head">
-      <h2>Weather <span class="live-tag">Live</span></h2>
-      <span class="section-tag">Section 2</span>
-    </div>
-    <div class="overview-grid">
-      <div class="stat-card"><div class="label">Right Now</div><div class="value" id="wx-current">—</div><div class="note" id="wx-current-note">Loading…</div></div>
-      <div class="stat-card"><div class="label">High / Low</div><div class="value" id="wx-hilo">—</div></div>
-      <div class="stat-card"><div class="label">Rain Chance</div><div class="value" id="wx-pop">—</div><div class="note">Today, per NWS</div></div>
-      <div class="stat-card"><div class="label">Source</div><div class="value" style="font-size:14px;">National Weather Service</div></div>
-    </div>
-    <p style="font-size:13.5px;color:var(--text-dim);margin-top:14px;" id="wx-outlook">
-      Loading forecast…
-    </p>
-    <p style="font-size:13.5px;color:var(--text-dim);" id="wx-tonight">
-    </p>
-    <div class="park-group-title" style="margin-top:18px;">Hourly Rain Chance</div>
-    <div id="hourlyPop" class="tag-list"></div>
-  </section>
-
-  <!-- 3. BEST PARK TODAY -->
   <section id="bestpark">
     <div class="section-head">
       <h2>Best Park Today <span class="live-tag">Live</span></h2>
@@ -510,7 +483,6 @@
     <p style="font-size:12.5px;color:var(--text-dim);margin-top:10px;">"Crowd" here is estimated live from current wait times resort-wide, not Disney's official crowd calendar — a real-time read, not a prediction. Numbers shift throughout the day, so check back before committing to a park.</p>
   </section>
 
-  <!-- 4. PARK DETAILS -->
   <section id="parks">
     <div class="section-head">
       <h2>Park Details <span class="live-tag">Live</span> <span class="live-tag curated">+ Curated</span></h2>
@@ -581,6 +553,7 @@
       <a class="map-link" href="https://disneyworld.disney.go.com/attractions/map/animal-kingdom/" target="_blank" rel="noopener">🗺️ Open Official Map</a>
     </div>
     </div>
+    <div id="dlParkDetails" style="display:none;"></div>
     <div id="tabPanelAllRides" style="display:none;">
       <div class="tab-bar" style="margin-bottom:12px;">
         <button class="tab-btn active" id="ridesFilterOpen" onclick="setRidesFilter('open')">Wait Times</button>
@@ -592,8 +565,36 @@
     </div>
   </section>
 
-  <!-- TRANSPORTATION QUICK NOTE -->
-  <!-- 7. ENTERTAINMENT -->
+  <section id="next1">
+    <div class="section-head">
+      <h2>Next Hour <span class="live-tag">Live</span></h2>
+      <span class="section-tag">Bonus</span>
+    </div>
+    <div id="next1-content">
+      <p class="empty-note">Loading live wait-time forecasts…</p>
+    </div>
+  </section>
+
+  <section id="weather">
+    <div class="section-head">
+      <h2>Weather <span class="live-tag">Live</span></h2>
+      <span class="section-tag">Section 2</span>
+    </div>
+    <div class="overview-grid">
+      <div class="stat-card"><div class="label">Right Now</div><div class="value" id="wx-current">—</div><div class="note" id="wx-current-note">Loading…</div></div>
+      <div class="stat-card"><div class="label">High / Low</div><div class="value" id="wx-hilo">—</div></div>
+      <div class="stat-card"><div class="label">Rain Chance</div><div class="value" id="wx-pop">—</div><div class="note">Today, per NWS</div></div>
+      <div class="stat-card"><div class="label">Source</div><div class="value" style="font-size:14px;">National Weather Service</div></div>
+    </div>
+    <p style="font-size:13.5px;color:var(--text-dim);margin-top:14px;" id="wx-outlook">
+      Loading forecast…
+    </p>
+    <p style="font-size:13.5px;color:var(--text-dim);" id="wx-tonight">
+    </p>
+    <div class="park-group-title" style="margin-top:18px;">Hourly Rain Chance</div>
+    <div id="hourlyPop" class="tag-list"></div>
+  </section>
+
   <section id="entertainment">
     <div class="section-head">
       <h2>Entertainment <span class="live-tag">Live</span></h2>
@@ -604,8 +605,24 @@
     </div>
   </section>
 
-  <!-- LIMITED-TIME EATS & DRINKS -->
-  <section id="limited">
+  <!-- FACILITIES -->
+  <section id="facilities" class="wdw-only">
+    <div class="section-head">
+      <h2>Restrooms, First Aid &amp; Baby Care</h2>
+      <span class="section-tag live-tag curated">Curated</span>
+    </div>
+    <p style="font-size:12px;color:var(--text-dim);margin-bottom:10px;">First Aid + Baby Care Centers sit next to each other in every park. Restrooms are frequent throughout — nearest one is always on the My Disney Experience map (restroom icon).</p>
+    <div class="park-group">
+      <div class="item-card"><div class="item-name">🏰 Magic Kingdom</div><div class="item-desc">Between Casey's Corner &amp; Crystal Palace, just off Main Street (castle end, turn left).</div></div>
+      <div class="item-card"><div class="item-name">🌐 EPCOT</div><div class="item-desc">Odyssey Building, between Test Track and the Mexico Pavilion.</div></div>
+      <div class="item-card"><div class="item-name">🎬 Hollywood Studios</div><div class="item-desc">Just inside main entrance, at/past Guest Relations (unstaffed baby care — ask Guest Relations for access).</div></div>
+      <div class="item-card"><div class="item-name">🌴 Animal Kingdom</div><div class="item-desc">Discovery Island, next to Creature Comforts (Starbucks).</div></div>
+      <div class="item-card"><div class="item-name">🌊 Water Parks</div><div class="item-desc">First Aid only (no Baby Care): Typhoon Lagoon near Leaning Palms; Blizzard Beach near Lottawatta Lodge.</div></div>
+    </div>
+    <p style="font-size:12px;color:var(--text-dim);margin-top:8px;">Baby Care Centers: free rest/nursing/changing space, sell diapers/formula/OTC meds. First Aid: free bandages/OTC meds, can store refrigerated medication, arranges Centra Care urgent care transport if needed. Emergency: call 911 or any Cast Member.</p>
+  </section>
+
+  <section id="limited" class="wdw-only">
     <div class="section-head">
       <h2>Limited-Time Eats &amp; Drinks</h2>
       <span class="section-tag">Bonus Section</span>
@@ -742,8 +759,7 @@
     <p style="font-size:12px;color:var(--text-dim);margin-top:4px;">Most of these tie to V.I.PASSHOLDER Summer Days, which runs May 1 – July 31, 2026. Items marked "AP exclusive" require a valid Annual Pass at purchase. Availability is while supplies last and subject to change — worth double-checking day-of via My Disney Experience.</p>
   </section>
 
-  <!-- DOLE WHIP FINDER -->
-  <section id="dolewhip">
+  <section id="dolewhip" class="wdw-only">
     <div class="section-head">
       <h2>Dole Whip Finder</h2>
       <span class="section-tag live-tag curated">Curated</span>
@@ -852,38 +868,88 @@
     <p style="font-size:12px;color:var(--text-dim);margin-top:4px;">⚠️ Walt Disney Imagineering recently filed permits for new signage at Aloha Isle — no closure confirmed, but worth checking day-of if it's your main stop.</p>
   </section>
 
-  <!-- PET BOARDING -->
-  <section id="petboarding">
+  <section id="adults" class="wdw-only">
     <div class="section-head">
-      <h2>Pet Boarding <span class="live-tag">Live Hours</span></h2>
-      <span class="section-tag">Best Friends Pet Care</span>
+      <h2>Adults Only 🔞</h2>
+      <span class="section-tag live-tag curated">Curated</span>
     </div>
-    <div class="item-card">
-      <div class="item-top">
-        <div><div class="item-name">Best Friends Pet Care</div><div class="item-loc">On-site, near the Ticket &amp; Transportation Center</div></div>
-        <span class="window-pill" id="petHoursPill">Loading…</span>
-      </div>
-      <div class="item-desc">Hours run one hour before the earliest park opens to one hour after the latest park closes today — computed live from today's actual park hours above. Check-out is by noon. Accepts dogs, cats, and small/pocket pets (owner-provided enclosure); no primates, venomous, or exotic species.</div>
+    <p style="font-size:12px;color:var(--text-dim);margin-bottom:10px;">21+, valid ID required. Drink responsibly, hydrate between stops, use Disney transport (never drive).</p>
+
+    <div class="park-group">
+      <div class="park-group-title">🚝 Monorail Resort Bar Crawl</div>
+      <p style="font-size:12px;color:var(--text-dim);margin-bottom:8px;">No park ticket needed — free Resort Monorail loop. 3-5hrs full crawl.</p>
+      <div class="item-card"><div class="item-name">1. Disney's Contemporary Resort</div><div class="item-desc">Steakhouse 71 Lounge — 1971 Sunset cocktail. Also: California Grill Lounge (fireworks view).</div></div>
+      <div class="item-card"><div class="item-name">2. Disney's Polynesian Village Resort</div><div class="item-desc">Trader Sam's Grog Grotto — Uh-Oa or HippopotoMai-Tai (long wait, no windows/fireworks view). Backup: Trader Sam's Tiki Terrace (same menu, outdoor). Also: Tambu Lounge — Lapu Lapu.</div></div>
+      <div class="item-card"><div class="item-name">3. Disney's Grand Floridian Resort &amp; Spa</div><div class="item-desc">Enchanted Rose — Lavender Fog or espresso martini. Also: Citrico's Lounge (no reservation needed).</div></div>
+      <div class="item-card"><div class="item-name">Route</div><div class="item-desc">TTC → Poly → Grand Floridian → Contemporary → TTC (loop, any direction/start point). Monorail runs 30min before MK open to 1hr after close.</div></div>
     </div>
-    <div class="tag-list" style="margin-top:8px;">
-      <span class="tag">🛁 Grooming available</span>
-      <span class="tag">🐕 Daycare available</span>
-      <span class="tag">🚐 Resort pickup/drop-off, $25 round trip (select resorts)</span>
-      <span class="tag">🌙 Staffed overnight (unique among Best Friends locations)</span>
-    </div>
-    <div class="item-card" style="margin-top:8px;">
-      <div class="item-top">
-        <div class="item-name">Reservations Line</div>
-        <span class="window-pill" style="font-size:15px;padding:8px 16px;">📞 (407) 828-3218</span>
-      </div>
-      <div class="item-desc">Recommended, especially around holidays.</div>
+
+    <div class="park-group">
+      <div class="park-group-title">🌍 EPCOT — Drinking Around the World</div>
+      <p style="font-size:12px;color:var(--text-dim);margin-bottom:8px;">11 pavilions, World Showcase, 1.2mi loop. Most start Mexico or Canada, go clockwise. 4-6hrs.</p>
+      <div class="item-card"><div class="item-name">1. Mexico</div><div class="item-desc">La Cava del Tequila — Avocado Margarita. Faster: Choza de Margarita (frozen).</div></div>
+      <div class="item-card"><div class="item-name">2. Norway</div><div class="item-desc">Kringla Bakeri og Kafe — Viking Coffee (w/ aquavit) or Nordic Draft Beer.</div></div>
+      <div class="item-card"><div class="item-name">3. China</div><div class="item-desc">Joy of Tea — Tipsy Ducks in Love (bourbon/black tea) or Dragon Butterfly (gin/vodka/boba).</div></div>
+      <div class="item-card"><div class="item-name">4. Africa Outpost</div><div class="item-desc">Refreshment Outpost — seasonal, rotates w/ festivals.</div></div>
+      <div class="item-card"><div class="item-name">5. Germany</div><div class="item-desc">Sommerfest — Schöfferhofer Pink Grapefruit Hefeweizen. Hidden: Weinkeller back-of-shop bar (Mozart Chocolate Liqueur).</div></div>
+      <div class="item-card"><div class="item-name">6. Italy</div><div class="item-desc">Tutto Gusto Wine Cellar — Italian wine flight/limoncello flight. Or Gelateria Toscana — Italian Margarita (frozen).</div></div>
+      <div class="item-card"><div class="item-name">7. American Adventure</div><div class="item-desc">Regal Eagle Smokehouse — Samuel Adams Boston Lager or Moonshine Sour. Good midpoint food stop.</div></div>
+      <div class="item-card"><div class="item-name">8. Japan</div><div class="item-desc">Kabuki Cafe — Violet Sake or Sake Mist (flavored shaved-ice). Hidden: Sake Bar upstairs (Mitsukoshi/Teppan Edo area).</div></div>
+      <div class="item-card"><div class="item-name">9. Morocco</div><div class="item-desc">Spice Road Table bar — Moroccarita or signature sangria.</div></div>
+      <div class="item-card"><div class="item-name">10. France</div><div class="item-desc">Les Vins de France (hidden shop bar) or Grand Marnier slushy.</div></div>
+      <div class="item-card"><div class="item-name">11. United Kingdom</div><div class="item-desc">Rose &amp; Crown Pub — half cider/half lager, or gin selection.</div></div>
+      <div class="item-card"><div class="item-name">12. Canada</div><div class="item-desc">Popcorn cart — Ottawa Apple (Crown Royal/maple/cranberry). Hidden: Trading Post Refreshments (back of gift shop).</div></div>
+      <div class="item-card"><div class="item-name">Cost estimate</div><div class="item-desc">$11-18/drink avg, ~$120-150+/person for full 11-pavilion crawl.</div></div>
     </div>
   </section>
 
-  <!-- RESORT CONTACTS -->
+  <section id="photopass" class="wdw-only">
+    <div class="section-head">
+      <h2>PhotoPass Locations</h2>
+      <span class="section-tag live-tag curated">Curated</span>
+    </div>
+    <p style="font-size:12px;color:var(--text-dim);margin-bottom:10px;">100+ locations resort-wide. Live map: My Disney Experience app → Map → filter "PhotoPass" (Mickey head icon). Tan vest + camera = cast member.</p>
 
-  <!-- AP PERKS -->
-  <section id="apperks">
+    <div class="park-group">
+      <div class="park-group-title">🏰 Magic Kingdom</div>
+      <div class="item-card"><div class="item-name">Cinderella Castle</div><div class="item-desc">Front courtyard, photographer stationed nearly all day.</div></div>
+      <div class="item-card"><div class="item-name">Partners Statue</div><div class="item-desc">Hub, Walt+Mickey statue.</div></div>
+      <div class="item-card"><div class="item-name">Tangled restroom area</div><div class="item-desc">Fantasyland, hanging lantern backdrop — night only.</div></div>
+      <div class="item-card"><div class="item-name">Liberty Sq / Fantasyland / Tomorrowland bridges</div><div class="item-desc">Castle-angle alt shots.</div></div>
+      <div class="item-card"><div class="item-name">Tiny World Magic Shot</div><div class="item-desc">Next to Cinderella Castle.</div></div>
+    </div>
+
+    <div class="park-group">
+      <div class="park-group-title">🌐 EPCOT</div>
+      <div class="item-card"><div class="item-name">Spaceship Earth</div><div class="item-desc">Front, all-day coverage. Also Tiny World Magic Shot here.</div></div>
+      <div class="item-card"><div class="item-name">World Showcase pavilions</div><div class="item-desc">Most pavilions have a stationed photographer; fairy wings Magic Shot available World Showcase-wide.</div></div>
+      <div class="item-card"><div class="item-name">World Celebration (central planter, Port of Entry)</div><div class="item-desc">Rotating festival Magic Shots (seasonal).</div></div>
+    </div>
+
+    <div class="park-group">
+      <div class="park-group-title">🎬 Hollywood Studios</div>
+      <div class="item-card"><div class="item-name">Hollywood Tower Hotel (Tower of Terror)</div><div class="item-desc">Park icon, near-constant coverage.</div></div>
+      <div class="item-card"><div class="item-name">Star Tours entrance</div><div class="item-desc">Tiny World Magic Shot.</div></div>
+      <div class="item-card"><div class="item-name">Toy Story Land / Hollywood Blvd / Sunset Blvd</div><div class="item-desc">Capture Your Moment session locations (bookable, 20-40min).</div></div>
+    </div>
+
+    <div class="park-group">
+      <div class="park-group-title">🌴 Animal Kingdom</div>
+      <div class="item-card"><div class="item-name">Tree of Life</div><div class="item-desc">Park icon.</div></div>
+      <div class="item-card"><div class="item-name">Garden Gate Gifts</div><div class="item-desc">Near entrance.</div></div>
+      <div class="item-card"><div class="item-name">Pandora – World of Avatar</div><div class="item-desc">Tiny World Magic Shot. Natural/scenic shots throughout park.</div></div>
+    </div>
+
+    <div class="park-group">
+      <div class="park-group-title">📸 Other</div>
+      <div class="item-card"><div class="item-name">Disney Springs PhotoPass Studio</div><div class="item-desc">Marketplace, green-screen/virtual backdrops, no reservation needed.</div></div>
+      <div class="item-card"><div class="item-name">Signature Portrait Sessions (2026 new)</div><div class="item-desc">Grand Floridian or Polynesian, $399/40min, premium resort portraits.</div></div>
+      <div class="item-card"><div class="item-name">Ride photos</div><div class="item-desc">Auto-captured: Space Mountain, Seven Dwarfs Mine Train, Tower of Terror + more. Included w/ Memory Maker or LL Multi Pass.</div></div>
+      <div class="item-card"><div class="item-name">Water Parks</div><div class="item-desc">Typhoon Lagoon, Blizzard Beach — PhotoPass available.</div></div>
+    </div>
+  </section>
+
+  <section id="apperks" class="wdw-only">
     <div class="section-head">
       <h2>Annual Passholder Perks</h2>
       <span class="section-tag live-tag curated">Curated</span>
@@ -934,92 +1000,34 @@
     </div>
   </section>
 
-
-  <!-- ADULTS ONLY -->
-  <section id="adults">
+  <section id="petboarding" class="wdw-only">
     <div class="section-head">
-      <h2>Adults Only 🔞</h2>
-      <span class="section-tag live-tag curated">Curated</span>
+      <h2>Pet Boarding <span class="live-tag">Live Hours</span></h2>
+      <span class="section-tag">Best Friends Pet Care</span>
     </div>
-    <p style="font-size:12px;color:var(--text-dim);margin-bottom:10px;">21+, valid ID required. Drink responsibly, hydrate between stops, use Disney transport (never drive).</p>
-
-    <div class="park-group">
-      <div class="park-group-title">🚝 Monorail Resort Bar Crawl</div>
-      <p style="font-size:12px;color:var(--text-dim);margin-bottom:8px;">No park ticket needed — free Resort Monorail loop. 3-5hrs full crawl.</p>
-      <div class="item-card"><div class="item-name">1. Disney's Contemporary Resort</div><div class="item-desc">Steakhouse 71 Lounge — 1971 Sunset cocktail. Also: California Grill Lounge (fireworks view).</div></div>
-      <div class="item-card"><div class="item-name">2. Disney's Polynesian Village Resort</div><div class="item-desc">Trader Sam's Grog Grotto — Uh-Oa or HippopotoMai-Tai (long wait, no windows/fireworks view). Backup: Trader Sam's Tiki Terrace (same menu, outdoor). Also: Tambu Lounge — Lapu Lapu.</div></div>
-      <div class="item-card"><div class="item-name">3. Disney's Grand Floridian Resort &amp; Spa</div><div class="item-desc">Enchanted Rose — Lavender Fog or espresso martini. Also: Citrico's Lounge (no reservation needed).</div></div>
-      <div class="item-card"><div class="item-name">Route</div><div class="item-desc">TTC → Poly → Grand Floridian → Contemporary → TTC (loop, any direction/start point). Monorail runs 30min before MK open to 1hr after close.</div></div>
+    <div class="item-card">
+      <div class="item-top">
+        <div><div class="item-name">Best Friends Pet Care</div><div class="item-loc">On-site, near the Ticket &amp; Transportation Center</div></div>
+        <span class="window-pill" id="petHoursPill">Loading…</span>
+      </div>
+      <div class="item-desc">Hours run one hour before the earliest park opens to one hour after the latest park closes today — computed live from today's actual park hours above. Check-out is by noon. Accepts dogs, cats, and small/pocket pets (owner-provided enclosure); no primates, venomous, or exotic species.</div>
     </div>
-
-    <div class="park-group">
-      <div class="park-group-title">🌍 EPCOT — Drinking Around the World</div>
-      <p style="font-size:12px;color:var(--text-dim);margin-bottom:8px;">11 pavilions, World Showcase, 1.2mi loop. Most start Mexico or Canada, go clockwise. 4-6hrs.</p>
-      <div class="item-card"><div class="item-name">1. Mexico</div><div class="item-desc">La Cava del Tequila — Avocado Margarita. Faster: Choza de Margarita (frozen).</div></div>
-      <div class="item-card"><div class="item-name">2. Norway</div><div class="item-desc">Kringla Bakeri og Kafe — Viking Coffee (w/ aquavit) or Nordic Draft Beer.</div></div>
-      <div class="item-card"><div class="item-name">3. China</div><div class="item-desc">Joy of Tea — Tipsy Ducks in Love (bourbon/black tea) or Dragon Butterfly (gin/vodka/boba).</div></div>
-      <div class="item-card"><div class="item-name">4. Africa Outpost</div><div class="item-desc">Refreshment Outpost — seasonal, rotates w/ festivals.</div></div>
-      <div class="item-card"><div class="item-name">5. Germany</div><div class="item-desc">Sommerfest — Schöfferhofer Pink Grapefruit Hefeweizen. Hidden: Weinkeller back-of-shop bar (Mozart Chocolate Liqueur).</div></div>
-      <div class="item-card"><div class="item-name">6. Italy</div><div class="item-desc">Tutto Gusto Wine Cellar — Italian wine flight/limoncello flight. Or Gelateria Toscana — Italian Margarita (frozen).</div></div>
-      <div class="item-card"><div class="item-name">7. American Adventure</div><div class="item-desc">Regal Eagle Smokehouse — Samuel Adams Boston Lager or Moonshine Sour. Good midpoint food stop.</div></div>
-      <div class="item-card"><div class="item-name">8. Japan</div><div class="item-desc">Kabuki Cafe — Violet Sake or Sake Mist (flavored shaved-ice). Hidden: Sake Bar upstairs (Mitsukoshi/Teppan Edo area).</div></div>
-      <div class="item-card"><div class="item-name">9. Morocco</div><div class="item-desc">Spice Road Table bar — Moroccarita or signature sangria.</div></div>
-      <div class="item-card"><div class="item-name">10. France</div><div class="item-desc">Les Vins de France (hidden shop bar) or Grand Marnier slushy.</div></div>
-      <div class="item-card"><div class="item-name">11. United Kingdom</div><div class="item-desc">Rose &amp; Crown Pub — half cider/half lager, or gin selection.</div></div>
-      <div class="item-card"><div class="item-name">12. Canada</div><div class="item-desc">Popcorn cart — Ottawa Apple (Crown Royal/maple/cranberry). Hidden: Trading Post Refreshments (back of gift shop).</div></div>
-      <div class="item-card"><div class="item-name">Cost estimate</div><div class="item-desc">$11-18/drink avg, ~$120-150+/person for full 11-pavilion crawl.</div></div>
+    <div class="tag-list" style="margin-top:8px;">
+      <span class="tag">🛁 Grooming available</span>
+      <span class="tag">🐕 Daycare available</span>
+      <span class="tag">🚐 Resort pickup/drop-off, $25 round trip (select resorts)</span>
+      <span class="tag">🌙 Staffed overnight (unique among Best Friends locations)</span>
+    </div>
+    <div class="item-card" style="margin-top:8px;">
+      <div class="item-top">
+        <div class="item-name">Reservations Line</div>
+        <span class="window-pill" style="font-size:15px;padding:8px 16px;">📞 (407) 828-3218</span>
+      </div>
+      <div class="item-desc">Recommended, especially around holidays.</div>
     </div>
   </section>
 
-
-  <!-- PHOTOPASS LOCATIONS -->
-  <section id="photopass">
-    <div class="section-head">
-      <h2>PhotoPass Locations</h2>
-      <span class="section-tag live-tag curated">Curated</span>
-    </div>
-    <p style="font-size:12px;color:var(--text-dim);margin-bottom:10px;">100+ locations resort-wide. Live map: My Disney Experience app → Map → filter "PhotoPass" (Mickey head icon). Tan vest + camera = cast member.</p>
-
-    <div class="park-group">
-      <div class="park-group-title">🏰 Magic Kingdom</div>
-      <div class="item-card"><div class="item-name">Cinderella Castle</div><div class="item-desc">Front courtyard, photographer stationed nearly all day.</div></div>
-      <div class="item-card"><div class="item-name">Partners Statue</div><div class="item-desc">Hub, Walt+Mickey statue.</div></div>
-      <div class="item-card"><div class="item-name">Tangled restroom area</div><div class="item-desc">Fantasyland, hanging lantern backdrop — night only.</div></div>
-      <div class="item-card"><div class="item-name">Liberty Sq / Fantasyland / Tomorrowland bridges</div><div class="item-desc">Castle-angle alt shots.</div></div>
-      <div class="item-card"><div class="item-name">Tiny World Magic Shot</div><div class="item-desc">Next to Cinderella Castle.</div></div>
-    </div>
-
-    <div class="park-group">
-      <div class="park-group-title">🌐 EPCOT</div>
-      <div class="item-card"><div class="item-name">Spaceship Earth</div><div class="item-desc">Front, all-day coverage. Also Tiny World Magic Shot here.</div></div>
-      <div class="item-card"><div class="item-name">World Showcase pavilions</div><div class="item-desc">Most pavilions have a stationed photographer; fairy wings Magic Shot available World Showcase-wide.</div></div>
-      <div class="item-card"><div class="item-name">World Celebration (central planter, Port of Entry)</div><div class="item-desc">Rotating festival Magic Shots (seasonal).</div></div>
-    </div>
-
-    <div class="park-group">
-      <div class="park-group-title">🎬 Hollywood Studios</div>
-      <div class="item-card"><div class="item-name">Hollywood Tower Hotel (Tower of Terror)</div><div class="item-desc">Park icon, near-constant coverage.</div></div>
-      <div class="item-card"><div class="item-name">Star Tours entrance</div><div class="item-desc">Tiny World Magic Shot.</div></div>
-      <div class="item-card"><div class="item-name">Toy Story Land / Hollywood Blvd / Sunset Blvd</div><div class="item-desc">Capture Your Moment session locations (bookable, 20-40min).</div></div>
-    </div>
-
-    <div class="park-group">
-      <div class="park-group-title">🌴 Animal Kingdom</div>
-      <div class="item-card"><div class="item-name">Tree of Life</div><div class="item-desc">Park icon.</div></div>
-      <div class="item-card"><div class="item-name">Garden Gate Gifts</div><div class="item-desc">Near entrance.</div></div>
-      <div class="item-card"><div class="item-name">Pandora – World of Avatar</div><div class="item-desc">Tiny World Magic Shot. Natural/scenic shots throughout park.</div></div>
-    </div>
-
-    <div class="park-group">
-      <div class="park-group-title">📸 Other</div>
-      <div class="item-card"><div class="item-name">Disney Springs PhotoPass Studio</div><div class="item-desc">Marketplace, green-screen/virtual backdrops, no reservation needed.</div></div>
-      <div class="item-card"><div class="item-name">Signature Portrait Sessions (2026 new)</div><div class="item-desc">Grand Floridian or Polynesian, $399/40min, premium resort portraits.</div></div>
-      <div class="item-card"><div class="item-name">Ride photos</div><div class="item-desc">Auto-captured: Space Mountain, Seven Dwarfs Mine Train, Tower of Terror + more. Included w/ Memory Maker or LL Multi Pass.</div></div>
-      <div class="item-card"><div class="item-name">Water Parks</div><div class="item-desc">Typhoon Lagoon, Blizzard Beach — PhotoPass available.</div></div>
-    </div>
-  </section>
-
-  <section id="contacts">
+  <section id="contacts" class="wdw-only">
     <div class="section-head">
       <h2>Resort Contacts</h2>
       <span class="section-tag live-tag curated">Curated</span>
@@ -1085,6 +1093,7 @@
     <p style="font-size:12px;color:var(--text-dim);margin-top:4px;">Now covers all 25+ on-site resorts. Numbers reflect resort main/front desk lines and may change. If a resort doesn't pick up, the Main Switchboard can route you.</p>
   </section>
 
+
   <footer>
     FIRST LIGHT — DISNEY EDITION · LIVE DATA VIA THEMEPARKS.WIKI &amp; NATIONAL WEATHER SERVICE · FOOD SECTION IS CURATED, ASK CLAUDE TO REFRESH IT
   </footer>
@@ -1092,20 +1101,90 @@
 </div>
 
 <script>
-const WDW_ID = "e957da41-3552-4cf6-b636-5babc5cbc4e5";
-const PARK_ORDER = [
-  "75ea578a-adc8-4116-a54d-dccb60765ef9", // Magic Kingdom
-  "47f90d2c-e191-4239-a466-5892ef59a88b", // EPCOT
-  "288747d1-8b4f-4a64-867e-ea7c9b27bad8", // Hollywood Studios
-  "1c84a229-8862-4648-9c71-378ddd2c7693"  // Animal Kingdom
-];
+const RESORTS = {
+  wdw: {
+    id: "e957da41-3552-4cf6-b636-5babc5cbc4e5",
+    parks: [
+      "75ea578a-adc8-4116-a54d-dccb60765ef9",
+      "47f90d2c-e191-4239-a466-5892ef59a88b",
+      "288747d1-8b4f-4a64-867e-ea7c9b27bad8",
+      "1c84a229-8862-4648-9c71-378ddd2c7693"
+    ],
+    wxGrid: "https://api.weather.gov/gridpoints/MLB/20,61",
+    label: "Walt Disney World"
+  },
+  dl: {
+    id: "bfc89fd6-314d-44b4-b89e-df1a89cf991e",
+    parks: [
+      "7340550b-c14d-4def-80bb-acdb51d49a66",
+      "832fcd51-ea19-4e77-85c7-75d5843b127c"
+    ],
+    wxGrid: "https://api.weather.gov/gridpoints/SGX/37,66",
+    label: "Disneyland Resort"
+  }
+};
+let currentResort = 'wdw';
+let WDW_ID = RESORTS.wdw.id;
+let PARK_ORDER = RESORTS.wdw.parks;
 const PARK_META = {
   "75ea578a-adc8-4116-a54d-dccb60765ef9": {name:"Magic Kingdom", short:"MK", emoji:"🏰"},
   "47f90d2c-e191-4239-a466-5892ef59a88b": {name:"EPCOT", short:"EPCOT", emoji:"🌐"},
   "288747d1-8b4f-4a64-867e-ea7c9b27bad8": {name:"Disney's Hollywood Studios", short:"HS", emoji:"🎬"},
-  "1c84a229-8862-4648-9c71-378ddd2c7693": {name:"Disney's Animal Kingdom", short:"AK", emoji:"🌴"}
+  "1c84a229-8862-4648-9c71-378ddd2c7693": {name:"Disney's Animal Kingdom", short:"AK", emoji:"🌴"},
+  "7340550b-c14d-4def-80bb-acdb51d49a66": {name:"Disneyland Park", short:"DL", emoji:"🏰"},
+  "832fcd51-ea19-4e77-85c7-75d5843b127c": {name:"Disney California Adventure", short:"DCA", emoji:"🎢"}
 };
-const WX_GRID = "https://api.weather.gov/gridpoints/MLB/20,61";
+let WX_GRID = RESORTS.wdw.wxGrid;
+
+function renderDLParkDetails(liveRes, schedRes){
+  if(currentResort !== 'dl') return;
+  const el = document.getElementById('dlParkDetails');
+  const attractionsByPark = {};
+  PARK_ORDER.forEach(id => attractionsByPark[id] = []);
+  (liveRes.liveData||[]).forEach(item=>{
+    if(item.entityType === "ATTRACTION" && attractionsByPark[item.parkId]){
+      attractionsByPark[item.parkId].push(item);
+    }
+  });
+  const todayStr = new Date().toLocaleDateString('en-CA');
+  let html = "";
+  PARK_ORDER.forEach(parkId=>{
+    const meta = PARK_META[parkId];
+    const items = attractionsByPark[parkId];
+    const operating = items.filter(i=>i.status==="OPERATING" && i.queue && i.queue.STANDBY && typeof i.queue.STANDBY.waitTime === "number");
+    const down = items.filter(i=>i.status && i.status !== "OPERATING");
+    const avgWait = operating.length ? Math.round(operating.reduce((s,i)=>s+i.queue.STANDBY.waitTime,0)/operating.length) : null;
+    const parkSched = (schedRes.parks||[]).find(p=>p.id===parkId);
+    let hoursText = "Hours unavailable";
+    if(parkSched){
+      const todays = (parkSched.schedule||[]).filter(s=>s.date===todayStr);
+      const op = todays.find(s=>s.type==="OPERATING");
+      if(op) hoursText = fmtTime(op.openingTime) + " – " + fmtTime(op.closingTime);
+    }
+    const cl = crowdLabel(avgWait);
+    html += `<div class="park-detail" style="--park-color:var(--amber);">
+      <div class="park-detail-head"><h3>${meta.name}</h3><div class="park-hours">${hoursText}</div></div>
+      <dl>
+        <dt>Crowd Level</dt><dd>${cl.text}${avgWait!=null ? ` (avg standby ~${avgWait} min)` : ''}</dd>
+        <dt>Closures</dt><dd>${down.length ? down.map(i=>i.name).slice(0,4).join(", ") : "Nothing reported down"}</dd>
+      </dl>
+    </div>`;
+  });
+  el.innerHTML = html;
+}
+
+function switchResort(r){
+  currentResort = r;
+  WDW_ID = RESORTS[r].id;
+  PARK_ORDER = RESORTS[r].parks;
+  WX_GRID = RESORTS[r].wxGrid;
+  document.getElementById('resortBtnWdw').classList.toggle('active', r==='wdw');
+  document.getElementById('resortBtnDl').classList.toggle('active', r==='dl');
+  document.querySelectorAll('.wdw-only').forEach(el=>el.style.display = (r==='wdw') ? '' : 'none');
+  document.getElementById('tabPanelByPark').style.display = (r==='wdw') ? 'block' : 'none';
+  document.getElementById('dlParkDetails').style.display = (r==='dl') ? 'block' : 'none';
+  loadLiveData();
+}
 
 // Keywords used to surface marquee entertainment (parades, fireworks, major stage shows)
 // and filter out the long tail of street performers and individual character meet-and-greets.
@@ -1162,14 +1241,16 @@ async function loadLiveData(){
   updateClock();
   updateHorizonNow();
   try{
-    const [liveRes, schedRes, wxRes, wxHourly] = await Promise.all([
+    const [liveRes, schedRes, wxRes, wxHourly, wxRaw] = await Promise.all([
       fetch(`https://api.themeparks.wiki/v1/entity/${WDW_ID}/live`).then(r=>r.json()),
       fetch(`https://api.themeparks.wiki/v1/entity/${WDW_ID}/schedule`).then(r=>r.json()),
       fetch(`${WX_GRID}/forecast`).then(r=>r.json()),
-      fetch(`${WX_GRID}/forecast/hourly`).then(r=>r.json())
+      fetch(`${WX_GRID}/forecast/hourly`).then(r=>r.json()),
+      fetch(`${WX_GRID}`).then(r=>r.json())
     ]);
     renderWeather(wxRes, wxHourly);
     renderHeaderTemp(wxHourly);
+    renderHeatAlert(wxRaw);
     renderHourlyPop(wxHourly);
     const parkStats = renderParks(liveRes, schedRes);
     renderOverview(parkStats, wxRes);
@@ -1179,6 +1260,7 @@ async function loadLiveData(){
     renderFavorites(liveRes);
     renderHorizonWindows(parkStats.earliestOpen, wxHourly);
     renderPetBoarding(parkStats.earliestRegularOpen, parkStats.latestRegularClose);
+    renderDLParkDetails(liveRes, schedRes);
     document.getElementById('lastUpdated').textContent = "Live as of " + new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
     setStatus("Live · updated " + new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}), false);
   }catch(e){
@@ -1192,6 +1274,33 @@ function renderHeaderTemp(wxHourly){
   if(!el) return;
   const now = wxHourly.properties.periods[0];
   el.textContent = now.temperature + "°" + now.temperatureUnit + " " + now.shortForecast;
+}
+
+function renderHeatAlert(wxRaw){
+  const el = document.getElementById('heatAlert');
+  if(!el) return;
+  const props = wxRaw.properties || {};
+  const hazards = (props.hazards && props.hazards.values) || [];
+  const heatIdxVals = (props.heatIndex && props.heatIndex.values) || [];
+  const now = Date.now();
+  const current = heatIdxVals.find(v=>{
+    const [start, dur] = v.validTime.split('/');
+    const t = new Date(start).getTime();
+    return t <= now && now < t + 3600000;
+  }) || heatIdxVals[0];
+  let html = "";
+  if(hazards.length){
+    html += `<div class="alert-banner"><span>⚠️</span><div><b>Active NWS Alert:</b> ${hazards.map(h=>h.value).join(", ")}</div></div>`;
+  }
+  if(current && current.value != null){
+    const heatF = Math.round(current.value * 9/5 + 32);
+    if(heatF >= 103){
+      html += `<div class="alert-banner"><span>🥵</span><div><b>Dangerous Heat — feels like ${heatF}°F.</b> Frequent shade/AC breaks, hydrate often, watch kids and older guests for heat exhaustion signs.</div></div>`;
+    } else if(heatF >= 95){
+      html += `<div class="alert-banner"><span>☀️</span><div><b>High Heat — feels like ${heatF}°F.</b> Plan shade breaks, hydrate, use misting fans/cooling stations.</div></div>`;
+    }
+  }
+  el.innerHTML = html;
 }
 
 function renderWeather(wx, wxHourly){
@@ -1301,7 +1410,8 @@ function llStatus(item){
   if(q.RETURN_TIME){
     const r = q.RETURN_TIME;
     if(r.state === "AVAILABLE" && r.returnStart){
-      return { text: "LL " + fmtShowTime(r.returnStart) + "–" + fmtShowTime(r.returnEnd), cls: "" };
+      const closingSoon = r.returnEnd && (new Date(r.returnEnd).getTime() - Date.now()) < 60*60*1000;
+      return { text: "LL " + fmtShowTime(r.returnStart) + "–" + fmtShowTime(r.returnEnd) + (closingSoon ? " ⏰ closing soon" : ""), cls: "" };
     }
     if(r.state === "FINISHED") return { text: "LL sold out", cls: "" };
     return { text: "LL not yet open", cls: "" };
@@ -1444,6 +1554,7 @@ function renderHorizonWindows(earliestOpen, wxHourly){
   }
 }
 
+let __prevAvgWait = {};
 function renderParks(liveRes, schedRes){
   let earliestOpen = null;
   let earliestRegularOpen = null;
@@ -1523,16 +1634,23 @@ function renderParks(liveRes, schedRes){
     const s = stats[parkId];
     const meta = PARK_META[parkId];
     const cl = crowdLabel(s.avgWait);
+    let trend = "";
+    if(s.avgWait != null && __prevAvgWait[parkId] != null){
+      const diff = s.avgWait - __prevAvgWait[parkId];
+      if(diff >= 3) trend = " 📈";
+      else if(diff <= -3) trend = " 📉";
+    }
     const div = document.createElement('div');
     div.className = "rank-card" + (idx===0 ? " best" : "");
     div.innerHTML = `
       <div class="rank-num">0${idx+1}</div>
       <div>
-        <div class="rank-park">${idx===0 ? "⭐ " : ""}${meta.emoji} ${meta.name}${idx===0 ? " — Best Choice Right Now" : ""}</div>
+        <div class="rank-park">${idx===0 ? "⭐ " : ""}${meta.emoji} ${meta.name}${idx===0 ? " — Best Choice Right Now" : ""}${trend}</div>
         <div class="rank-meta">${s.avgWait!=null ? `Average standby wait ~${s.avgWait} min across ${s.operatingCount} attractions` : "Wait time data unavailable"}${s.downCount ? ` · ${s.downCount} attraction${s.downCount>1?'s':''} down` : ""}</div>
       </div>
       <span class="crowd-pill ${cl.cls}">${cl.text}</span>`;
     rankList.appendChild(div);
+    if(s.avgWait != null) __prevAvgWait[parkId] = s.avgWait;
   });
 
   return { stats, ranked, earliestOpen, earliestRegularOpen, latestRegularClose };
