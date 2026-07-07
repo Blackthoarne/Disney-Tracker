@@ -1168,7 +1168,7 @@ async function loadLiveData(){
       fetch(`${WX_GRID}/forecast`).then(r=>r.json()),
       fetch(`${WX_GRID}/forecast/hourly`).then(r=>r.json())
     ]);
-    renderWeather(wxRes);
+    renderWeather(wxRes, wxHourly);
     renderHeaderTemp(wxHourly);
     renderHourlyPop(wxHourly);
     const parkStats = renderParks(liveRes, schedRes);
@@ -1194,12 +1194,13 @@ function renderHeaderTemp(wxHourly){
   el.textContent = now.temperature + "°" + now.temperatureUnit + " " + now.shortForecast;
 }
 
-function renderWeather(wx){
+function renderWeather(wx, wxHourly){
   const periods = wx.properties.periods;
   const today = periods.find(p=>p.isDaytime) || periods[0];
   const tonight = periods.find(p=>!p.isDaytime) || periods[1];
-  document.getElementById('wx-current').textContent = today.temperature + "°" + today.temperatureUnit;
-  document.getElementById('wx-current-note').textContent = today.shortForecast;
+  const now = wxHourly.properties.periods[0];
+  document.getElementById('wx-current').textContent = now.temperature + "°" + now.temperatureUnit;
+  document.getElementById('wx-current-note').textContent = now.shortForecast;
   document.getElementById('wx-hilo').textContent = today.temperature + "° / " + (tonight ? tonight.temperature+"°" : "—");
   const pop = today.probabilityOfPrecipitation && today.probabilityOfPrecipitation.value;
   document.getElementById('wx-pop').textContent = (pop!=null ? pop+"%" : "—");
