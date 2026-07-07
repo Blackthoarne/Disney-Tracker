@@ -1169,7 +1169,7 @@ async function loadLiveData(){
       fetch(`${WX_GRID}/forecast/hourly`).then(r=>r.json())
     ]);
     renderWeather(wxRes);
-    renderHeaderTemp(wxRes);
+    renderHeaderTemp(wxHourly);
     renderHourlyPop(wxHourly);
     const parkStats = renderParks(liveRes, schedRes);
     renderOverview(parkStats, wxRes);
@@ -1187,11 +1187,11 @@ async function loadLiveData(){
   btn.disabled = false; btn.textContent = "↻ Refresh";
 }
 
-function renderHeaderTemp(wx){
+function renderHeaderTemp(wxHourly){
   const el = document.getElementById('stubTemp');
   if(!el) return;
-  const today = wx.properties.periods.find(p=>p.isDaytime) || wx.properties.periods[0];
-  el.textContent = today.temperature + "°" + today.temperatureUnit + " " + today.shortForecast;
+  const now = wxHourly.properties.periods[0];
+  el.textContent = now.temperature + "°" + now.temperatureUnit + " " + now.shortForecast;
 }
 
 function renderWeather(wx){
