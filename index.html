@@ -119,8 +119,10 @@
   /* ===== Container / Nav ===== */
   .wrap{ max-width:920px; margin:0 auto; padding:0 20px 100px; }
   .quicknav{
-    display:flex; gap:6px; overflow-x:auto; padding:20px 0 8px;
+    display:flex; gap:6px; overflow-x:auto; padding:14px 20px 14px;
     scrollbar-width:none;
+    position:sticky; top:0; z-index:50; background:var(--bg);
+    margin:0 -20px 6px; box-shadow:0 4px 10px rgba(11,16,32,0.06);
   }
   .quicknav::-webkit-scrollbar{display:none;}
   .quicknav a{
@@ -383,10 +385,18 @@
   }
   .live-tag.curated{ color:var(--updated); background:rgba(38,115,184,.10); border-color:rgba(38,115,184,.4); }
 
+  .back-to-top{
+    position:fixed; bottom:22px; right:18px; z-index:60;
+    width:52px; height:52px; border-radius:50%; background:var(--amber); color:#3A2604;
+    border:none; font-size:22px; box-shadow:0 6px 18px rgba(240,168,48,0.5);
+    cursor:pointer; display:none; align-items:center; justify-content:center;
+  }
+  .back-to-top.show{ display:flex; }
   @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} }
 </style>
 </head>
 <body>
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
 
 <div class="ticket">
   <div class="ticket-inner" style="flex-direction:column;align-items:stretch;">
@@ -1773,6 +1783,11 @@ function renderNext1Hour(liveRes){
   }
   document.getElementById('next1-content').innerHTML = html;
 }
+
+window.addEventListener('scroll', ()=>{
+  const btn = document.getElementById('backToTop');
+  if(window.scrollY > 500) btn.classList.add('show'); else btn.classList.remove('show');
+});
 
 // Load on page open
 updateClock();
