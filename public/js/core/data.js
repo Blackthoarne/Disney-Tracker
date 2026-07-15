@@ -3,7 +3,7 @@
 // renderParks()); broadcasts a normalized {live, schedule, forecast, hourly,
 // parkStats, meta} payload on the bus.
 
-import { PARK_ORDER } from "./parks.js";
+import { PARK_ORDER, currentResort } from "./parks.js";
 import { localDateStr, fmtTime } from "./format.js";
 
 const REFRESH_MS = 5 * 60 * 1000;
@@ -15,7 +15,7 @@ export function createDataHub({ api, bus }) {
     async refresh() {
       bus.emit("data:loading");
       try {
-        const raw = await api.get("/api/data");
+        const raw = await api.get(`/api/data?resort=${encodeURIComponent(currentResort)}`);
         const data = normalize(raw);
         hub.last = data;
         bus.emit("data", data);
@@ -44,6 +44,7 @@ function normalize(raw) {
   const schedule = raw.schedule?.value || { parks: [] };
   const forecast = raw.forecast?.value || null;
   const hourly = raw.hourly?.value || null;
+  const grid = raw.grid?.value || null;
   const stale =
     !!raw.live?.meta?.stale ||
     !!raw.schedule?.meta?.stale ||
@@ -53,10 +54,12 @@ function normalize(raw) {
   const parkStats = computeParkStats(live, schedule);
 
   return {
+    resort: raw.resort || "wdw",
     live,
     schedule,
     forecast,
     hourly,
+    grid,
     parkStats,
     stale,
     meta: {
@@ -64,6 +67,7 @@ function normalize(raw) {
       schedule: raw.schedule?.meta,
       forecast: raw.forecast?.meta,
       hourly: raw.hourly?.meta,
+      grid: raw.grid?.meta,
     },
     fetchedAt: raw.fetchedAt || new Date().toISOString(),
   };

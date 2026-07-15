@@ -25,6 +25,8 @@ function validate(manifest, dirName) {
     type: manifest.type || "static", // live | curated | static
     order: Number.isFinite(manifest.order) ? manifest.order : 999,
     slot: manifest.slot || "main", // main | header
+    group: manifest.group || "", // quicknav group label (e.g. RIGHT NOW / PLAN / REFERENCE)
+    resorts: Array.isArray(manifest.resorts) ? manifest.resorts : null, // null = all resorts
     nav: manifest.nav !== false,
     enabled: manifest.enabled !== false,
     hasClient: manifest.hasClient !== false, // set false for pure header widgets that still need client.js? default true

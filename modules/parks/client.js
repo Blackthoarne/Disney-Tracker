@@ -3,16 +3,16 @@
 // Ported from renderParks() (DOM fills) + renderAllRides() + tab logic.
 // Star favorites toggle via event delegation on data-fav (no inline onclick).
 
-import { esc } from "../../js/core/format.js";
-import { PARK_ORDER, PARK_META, crowdLabel, llStatus } from "../../js/core/parks.js";
+import { esc, fmtTime } from "../../js/core/format.js";
+import { PARK_ORDER, PARK_META, crowdLabel, llStatus, currentResort } from "../../js/core/parks.js";
 
 let ridesFilter = "open";
 let lastLive = null;
 
 const DETAIL_HTML = `
 <div class="tab-bar">
-  <button class="tab-btn active" data-tab="bypark">By Park</button>
-  <button class="tab-btn" data-tab="allrides">All Rides</button>
+  <button class="subtab-btn active" data-tab="bypark" aria-label="Show park details by park">By Park</button>
+  <button class="subtab-btn" data-tab="allrides" aria-label="Show all rides list">All Rides</button>
 </div>
 <div id="tabPanelByPark">
 
@@ -75,10 +75,11 @@ const DETAIL_HTML = `
   <a class="map-link" href="https://disneyworld.disney.go.com/attractions/map/animal-kingdom/" target="_blank" rel="noopener">🗺️ Open Official Map</a>
 </div>
 </div>
+<div id="dlParkDetails" style="display:none;"></div>
 <div id="tabPanelAllRides" style="display:none;">
   <div class="tab-bar" style="margin-bottom:12px;">
-    <button class="tab-btn active" data-rides="open">Wait Times</button>
-    <button class="tab-btn" data-rides="closed">Closed</button>
+    <button class="filter-chip active" data-rides="open" aria-label="Filter to open rides with wait times">Wait Times</button>
+    <button class="filter-chip" data-rides="closed" aria-label="Filter to closed rides">Closed</button>
   </div>
   <div id="allrides-content">
     <p class="empty-note">Loading live wait times…</p>
@@ -103,7 +104,7 @@ function renderAllRides(el, ctx) {
       const wb = (b.queue && b.queue.STANDBY && b.queue.STANDBY.waitTime) ?? -1;
       return wb - wa;
     });
-    html += `<details class="park-group" open><summary class="park-group-title" style="cursor:pointer;">${meta.emoji} ${esc(meta.name)} (${rides.length})</summary>`;
+    html += `<details class="park-group" open><summary class="park-group-title custom-disclosure">${meta.emoji} ${esc(meta.name)} (${rides.length})<span class="chevron">▾</span></summary>`;
     if (!rides.length) {
       html += `<p class="empty-note">${ridesFilter === "closed" ? "Nothing down right now" : "No rides in this view"}</p>`;
     }
@@ -115,7 +116,10 @@ function renderAllRides(el, ctx) {
       const isFav = ctx.favorites.has(r.name);
       html += `<div class="item-card" style="margin-bottom:6px;padding:10px 14px;">
         <div class="item-top">
-          <div class="item-name fav-toggle" style="font-size:13.5px;" data-fav="${esc(r.name)}">${isFav ? "⭐" : "☆"} ${esc(r.name)}</div>
+          <div class="item-name" style="display:flex;align-items:center;font-size:13.5px;">
+            <button class="fav-star" aria-label="${isFav ? "Unpin" : "Pin"} ${esc(r.name)}" data-fav="${esc(r.name)}">${isFav ? "⭐" : "☆"}</button>
+            <span>${esc(r.name)}</span>
+          </div>
           <span class="window-pill ${isDown ? "ap" : ""}">${esc(waitText)}</span>
         </div>
         ${ll ? `<div class="item-desc">${esc(ll.text)}</div>` : ""}
@@ -124,6 +128,56 @@ function renderAllRides(el, ctx) {
     html += `</details>`;
   });
   el.querySelector("#allrides-content").innerHTML = html;
+}
+
+// Disneyland park-detail cards, generated live (ported from v2's
+// renderDLParkDetails — DL has no curated per-park card content yet).
+function renderDLParkDetails(el, data) {
+  const container = el.querySelector("#dlParkDetails");
+  if (!container || currentResort !== "dl") return;
+  const liveRes = data.live;
+  const schedRes = data.schedule;
+  const attractionsByPark = {};
+  PARK_ORDER.forEach((id) => (attractionsByPark[id] = []));
+  (liveRes.liveData || []).forEach((item) => {
+    if (item.entityType === "ATTRACTION" && attractionsByPark[item.parkId]) {
+      attractionsByPark[item.parkId].push(item);
+    }
+  });
+  const todayStr = new Date().toLocaleDateString("en-CA");
+  let html = "";
+  PARK_ORDER.forEach((parkId) => {
+    const meta = PARK_META[parkId];
+    const items = attractionsByPark[parkId];
+    const operating = items.filter((i) => i.status === "OPERATING" && i.queue && i.queue.STANDBY && typeof i.queue.STANDBY.waitTime === "number");
+    const down = items.filter((i) => i.status && i.status !== "OPERATING");
+    const avgWait = operating.length ? Math.round(operating.reduce((s, i) => s + i.queue.STANDBY.waitTime, 0) / operating.length) : null;
+    const parkSched = (schedRes.parks || []).find((p) => p.id === parkId);
+    let hoursText = "Hours unavailable";
+    if (parkSched) {
+      const todays = (parkSched.schedule || []).filter((sc) => sc.date === todayStr);
+      const op = todays.find((sc) => sc.type === "OPERATING");
+      if (op) hoursText = fmtTime(op.openingTime) + " – " + fmtTime(op.closingTime);
+    }
+    const cl = crowdLabel(avgWait);
+    html += `<div class="park-detail" style="--park-color:var(--amber);">
+      <div class="park-detail-head"><h3>${esc(meta.name)}</h3><div class="park-hours">${esc(hoursText)}</div></div>
+      <dl>
+        <dt>Crowd Level</dt><dd>${esc(cl.text)}${avgWait != null ? ` (avg standby ~${avgWait} min)` : ""}</dd>
+        <dt>Closures</dt><dd>${down.length ? esc(down.map((i) => i.name).slice(0, 4).join(", ")) : "Nothing reported down"}</dd>
+      </dl>
+    </div>`;
+  });
+  container.innerHTML = html;
+}
+
+function applyResortPanels(el) {
+  const byPark = el.querySelector("#tabPanelByPark");
+  const dl = el.querySelector("#dlParkDetails");
+  const allRides = el.querySelector("#tabPanelAllRides");
+  const onAllRides = allRides.style.display !== "none";
+  byPark.style.display = !onAllRides && currentResort === "wdw" ? "block" : "none";
+  dl.style.display = !onAllRides && currentResort === "dl" ? "block" : "none";
 }
 
 export default {
@@ -136,17 +190,19 @@ export default {
       dd.dataset.base = dd.textContent;
     });
 
-    // Tab switching (By Park / All Rides).
+    // Tab switching (By Park / All Rides), resort-aware.
     el.querySelectorAll("[data-tab]").forEach((btn) => {
       btn.addEventListener("click", () => {
         const tab = btn.getAttribute("data-tab");
-        const byPark = el.querySelector("#tabPanelByPark");
         const allRides = el.querySelector("#tabPanelAllRides");
         el.querySelectorAll("[data-tab]").forEach((b) => b.classList.toggle("active", b === btn));
-        if (tab === "allrides") { byPark.style.display = "none"; allRides.style.display = "block"; }
-        else { byPark.style.display = "block"; allRides.style.display = "none"; }
+        allRides.style.display = tab === "allrides" ? "block" : "none";
+        applyResortPanels(el);
       });
     });
+
+    // Swap By Park (WDW curated cards) for generated DL cards on resort switch.
+    ctx.bus.on("resort:changed", () => applyResortPanels(el));
 
     // Rides filter (Wait Times / Closed).
     el.querySelectorAll("[data-rides]").forEach((btn) => {
@@ -188,5 +244,7 @@ export default {
     });
 
     renderAllRides(el, ctx);
+    renderDLParkDetails(el, data);
+    applyResortPanels(el);
   },
 };

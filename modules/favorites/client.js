@@ -27,7 +27,10 @@ function render(el, ctx) {
     const ll = r ? llStatus(r) : null;
     html += `<div class="item-card" style="margin-bottom:6px;padding:10px 14px;">
       <div class="item-top">
-        <div class="item-name fav-toggle" style="font-size:13.5px;" data-fav="${esc(name)}">⭐ ${esc(name)}</div>
+        <div class="item-name" style="display:flex;align-items:center;font-size:13.5px;">
+          <button class="fav-star" aria-label="Unpin ${esc(name)} from favorites" data-fav="${esc(name)}">⭐</button>
+          <span>${esc(name)}</span>
+        </div>
         <span class="window-pill ${isDown ? "ap" : ""}">${esc(waitText)}</span>
       </div>
       ${ll ? `<div class="item-desc">${esc(ll.text)}</div>` : ""}

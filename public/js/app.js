@@ -32,10 +32,23 @@ function badgeSpans(badges) {
     .join(" ");
 }
 
+// Section accent border by nav group (mirrors v2's per-section inline styles).
+const GROUP_ACCENT = {
+  "RIGHT NOW": "var(--amber)",
+  "PLAN": "var(--updated)",
+  "REFERENCE": "var(--text-faint)",
+};
+
 // Build the section chrome (title, badges, tag) + an empty body for a module.
 function buildSection(mod) {
   const section = document.createElement("section");
   section.id = mod.id;
+  const accent = GROUP_ACCENT[mod.group];
+  if (accent) {
+    section.style.borderLeft = `4px solid ${accent}`;
+    section.style.paddingLeft = "16px";
+  }
+  if (mod.resorts && !mod.resorts.includes("dl")) section.classList.add("wdw-only");
   const head = document.createElement("div");
   head.className = "section-head";
   head.innerHTML =
@@ -69,6 +82,7 @@ async function boot() {
 
   // Build nav + section chrome; collect mount targets.
   const mounts = []; // { mod, el }
+  let lastNavGroup = null;
   for (const mod of modules) {
     if (mod.slot === "header") {
       const wrap = document.createElement("div");
@@ -79,6 +93,13 @@ async function boot() {
     }
     // main slot
     if (mod.nav !== false) {
+      if (mod.group && mod.group !== lastNavGroup) {
+        const label = document.createElement("span");
+        label.className = "nav-group-label";
+        label.textContent = mod.group;
+        quicknav.appendChild(label);
+        lastNavGroup = mod.group;
+      }
       const a = document.createElement("a");
       a.href = `#${mod.id}`;
       a.textContent = mod.navLabel || mod.title;
@@ -145,6 +166,37 @@ async function boot() {
     await data.refresh().catch(() => {});
     btn.disabled = false;
     btn.textContent = "↻ Refresh";
+  });
+
+  // Header "right now" temperature from the hourly feed (v2's stubTemp).
+  bus.on("data", (payload) => {
+    const el = document.getElementById("stubTemp");
+    const now = payload.hourly?.properties?.periods?.[0];
+    if (el && now) el.textContent = now.temperature + "°" + now.temperatureUnit + " " + now.shortForecast;
+  });
+
+  // Resort switcher (WDW / Disneyland) — ported from v2's switchResort().
+  const btnWdw = document.getElementById("resortBtnWdw");
+  const btnDl = document.getElementById("resortBtnDl");
+  function applyResort(r) {
+    parks.setResort(r);
+    btnWdw.classList.toggle("active", r === "wdw");
+    btnDl.classList.toggle("active", r === "dl");
+    document.querySelectorAll(".wdw-only").forEach((el) => {
+      el.style.display = r === "wdw" ? "" : "none";
+    });
+    bus.emit("resort:changed", r);
+    data.refresh().catch(() => {});
+  }
+  btnWdw.addEventListener("click", () => applyResort("wdw"));
+  btnDl.addEventListener("click", () => applyResort("dl"));
+
+  // Back-to-top button (v2).
+  const backToTop = document.getElementById("backToTop");
+  backToTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 500) backToTop.classList.add("show");
+    else backToTop.classList.remove("show");
   });
 
   // First load + periodic refresh.

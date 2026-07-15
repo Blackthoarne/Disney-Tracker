@@ -1,7 +1,7 @@
 # First Light — Disney Edition · Project Status
 
-**Last updated:** 2026-07-06
-**State:** Phases 1–4 of the implementation plan are **built and verified**. Phase 5 (AI-assisted curation drafts) is **not implemented** (optional, by design last in the roadmap).
+**Last updated:** 2026-07-15
+**State:** Phases 1–4 of the implementation plan are **built and verified**, plus the v2 feature set merged from upstream `main` (multi-resort WDW/Disneyland switcher, facilities module, grouped sticky nav, heat alerts, accessibility + style refresh). Phase 5 (AI-assisted curation drafts) is **not implemented** (optional, by design last in the roadmap).
 
 ---
 
@@ -73,22 +73,29 @@ docs/              ARCHITECTURE, IMPLEMENTATION-PLAN, SETUP-GUIDE, ADDING-MODULE
 | Order | Module | Type | Slot |
 |---|---|---|---|
 | 0 | horizon | live | header |
-| 5 | favorites | live | main (nav hidden) |
-| 10 | overview | live | main |
-| 20 | next-hour | live | main |
-| 30 | weather | live | main |
-| 40 | best-park | live | main |
-| 50 | parks | live + curated card text | main |
-| 60 | entertainment | live | main |
-| 70 | limited-eats | **curated** | main |
-| 80 | dole-whip | **curated** | main |
-| 90 | pet-boarding | live + static | main |
-| 100 | ap-perks | **curated** | main |
-| 110 | adults-only | **curated** | main |
-| 120 | photopass | **curated** | main |
-| 130 | contacts | **curated** | main |
+| 5 | favorites | live | main (nav hidden, RIGHT NOW) |
+| 10 | overview | live | main (RIGHT NOW) |
+| 20 | best-park | live | main (RIGHT NOW) |
+| 30 | parks | live + curated card text | main (RIGHT NOW) |
+| 40 | next-hour | live | main (RIGHT NOW) |
+| 50 | weather | live | main (RIGHT NOW) |
+| 60 | entertainment | live | main (RIGHT NOW) |
+| 70 | facilities | **curated** | main (PLAN, WDW-only) |
+| 80 | limited-eats | **curated** | main (PLAN, WDW-only) |
+| 90 | dole-whip | **curated** | main (PLAN, WDW-only) |
+| 100 | adults-only | **curated** | main (PLAN, WDW-only) |
+| 110 | photopass | **curated** | main (PLAN, WDW-only) |
+| 120 | ap-perks | **curated** | main (REFERENCE, WDW-only) |
+| 130 | pet-boarding | live + static | main (REFERENCE, WDW-only) |
+| 140 | contacts | **curated** | main (REFERENCE, WDW-only) |
 
 `modules/_template/` is a documented scaffold, skipped by the loader.
+
+**Multi-resort:** every live endpoint accepts `?resort=wdw|dl` (default wdw);
+the shell's resort tabs switch park constants, refetch data, and hide the
+WDW-only sections when Disneyland is active (Disneyland park-detail cards are
+generated live). Weather adds `/api/weather/grid` (raw NWS gridpoint) feeding
+the header temperature and the overview heat/hazard alerts.
 
 ## Environment variables
 

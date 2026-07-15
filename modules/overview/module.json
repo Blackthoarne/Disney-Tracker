@@ -3,9 +3,15 @@
   "title": "Today's Overview",
   "navLabel": "Overview",
   "tag": "Section 1",
-  "badges": [{ "type": "live", "label": "Live" }],
+  "badges": [
+    {
+      "type": "live",
+      "label": "Live"
+    }
+  ],
   "type": "live",
   "order": 10,
   "slot": "main",
-  "enabled": true
+  "enabled": true,
+  "group": "RIGHT NOW"
 }

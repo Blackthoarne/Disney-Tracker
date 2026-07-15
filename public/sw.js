@@ -2,7 +2,7 @@
 // Cache-first for the app shell + static assets (css/js/modules/icons);
 // network-only for /api/* (the server's TTL cache is the freshness authority).
 
-const CACHE = "first-light-v1";
+const CACHE = "first-light-v2";
 const SHELL = [
   "/",
   "/index.html",

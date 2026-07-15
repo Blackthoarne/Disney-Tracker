@@ -1,9 +1,12 @@
 # First Light — Disney Edition
 
-A self-hosted, **zero-dependency** live Walt Disney World dashboard: wait times,
-park hours, weather, showtimes, and a set of curated trip guides (limited-time
-eats, Dole Whip finder, AP perks, PhotoPass spots, resort contacts) that you can
-edit from your phone at runtime — no redeploys.
+A self-hosted, **zero-dependency** live Disney parks dashboard: wait times,
+park hours, weather (with heat alerts), showtimes, and a set of curated trip
+guides (limited-time eats, Dole Whip finder, restrooms/first aid, AP perks,
+PhotoPass spots, resort contacts) that you can edit from your phone at runtime
+— no redeploys. Covers **Walt Disney World and Disneyland** with a one-tap
+resort switcher; the quick-nav is sticky and grouped (RIGHT NOW / PLAN /
+REFERENCE).
 
 > Screenshot placeholder — add a capture of the dashboard here.
 

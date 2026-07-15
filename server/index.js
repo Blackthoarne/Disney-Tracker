@@ -25,13 +25,19 @@ const cache = new TTLCache();
 // Files inside modules/ that may be served to the browser.
 const MODULE_EXT = new Set([".js", ".css", ".json", ".html"]);
 
-// ---- upstream URLs ----------------------------------------------------------
+// ---- upstream URLs (per resort) ----------------------------------------------
+
+function resortFor(url) {
+  const r = url.searchParams.get("resort") || "wdw";
+  return config.destinations[r] ? r : "wdw";
+}
 
 const UP = {
-  live: () => `https://api.themeparks.wiki/v1/entity/${config.destinationId}/live`,
-  schedule: () => `https://api.themeparks.wiki/v1/entity/${config.destinationId}/schedule`,
-  forecast: () => `https://api.weather.gov/gridpoints/${config.weatherGrid}/forecast`,
-  hourly: () => `https://api.weather.gov/gridpoints/${config.weatherGrid}/forecast/hourly`,
+  live: (r) => `https://api.themeparks.wiki/v1/entity/${config.destinations[r].destinationId}/live`,
+  schedule: (r) => `https://api.themeparks.wiki/v1/entity/${config.destinations[r].destinationId}/schedule`,
+  forecast: (r) => `https://api.weather.gov/gridpoints/${config.destinations[r].weatherGrid}/forecast`,
+  hourly: (r) => `https://api.weather.gov/gridpoints/${config.destinations[r].weatherGrid}/forecast/hourly`,
+  grid: (r) => `https://api.weather.gov/gridpoints/${config.destinations[r].weatherGrid}`,
 };
 
 const TTL = { live: 60_000, schedule: 15 * 60_000, weather: 10 * 60_000 };
@@ -145,38 +151,46 @@ async function handle(req, res) {
     }
   }
 
-  // ---- live/park data (proxy + TTL cache + stale-on-error) ----
+  // ---- live/park data (proxy + TTL cache + stale-on-error, per resort) ----
+  const resort = resortFor(url);
   if (path === "/api/live" && method === "GET") {
-    return sendJson(res, 200, envelope(await cachedFetch("live", TTL.live, UP.live())));
+    return sendJson(res, 200, envelope(await cachedFetch(`${resort}:live`, TTL.live, UP.live(resort))));
   }
   if (path === "/api/schedule" && method === "GET") {
-    return sendJson(res, 200, envelope(await cachedFetch("schedule", TTL.schedule, UP.schedule())));
+    return sendJson(res, 200, envelope(await cachedFetch(`${resort}:schedule`, TTL.schedule, UP.schedule(resort))));
   }
   if (path === "/api/weather/forecast" && method === "GET") {
-    return sendJson(res, 200, envelope(await cachedFetch("forecast", TTL.weather, UP.forecast())));
+    return sendJson(res, 200, envelope(await cachedFetch(`${resort}:forecast`, TTL.weather, UP.forecast(resort))));
   }
   if (path === "/api/weather/hourly" && method === "GET") {
-    return sendJson(res, 200, envelope(await cachedFetch("hourly", TTL.weather, UP.hourly())));
+    return sendJson(res, 200, envelope(await cachedFetch(`${resort}:hourly`, TTL.weather, UP.hourly(resort))));
+  }
+  // Raw gridpoint data (heat index + active hazards for the heat alert).
+  if (path === "/api/weather/grid" && method === "GET") {
+    return sendJson(res, 200, envelope(await cachedFetch(`${resort}:grid`, TTL.weather, UP.grid(resort))));
   }
 
-  // ---- bundled data: all four in parallel, each part carrying its meta ----
+  // ---- bundled data: all five in parallel, each part carrying its meta ----
   if (path === "/api/data" && method === "GET") {
     const parts = await Promise.allSettled([
-      cachedFetch("live", TTL.live, UP.live()),
-      cachedFetch("schedule", TTL.schedule, UP.schedule()),
-      cachedFetch("forecast", TTL.weather, UP.forecast()),
-      cachedFetch("hourly", TTL.weather, UP.hourly()),
+      cachedFetch(`${resort}:live`, TTL.live, UP.live(resort)),
+      cachedFetch(`${resort}:schedule`, TTL.schedule, UP.schedule(resort)),
+      cachedFetch(`${resort}:forecast`, TTL.weather, UP.forecast(resort)),
+      cachedFetch(`${resort}:hourly`, TTL.weather, UP.hourly(resort)),
+      cachedFetch(`${resort}:grid`, TTL.weather, UP.grid(resort)),
     ]);
-    const [live, schedule, forecast, hourly] = parts;
+    const [live, schedule, forecast, hourly, grid] = parts;
     const pack = (settled) =>
       settled.status === "fulfilled"
         ? { value: settled.value.value, meta: envelope(settled.value).meta }
         : { value: null, meta: { stale: true, cached: false, error: String(settled.reason?.message || settled.reason) } };
     return sendJson(res, 200, {
+      resort,
       live: pack(live),
       schedule: pack(schedule),
       forecast: pack(forecast),
       hourly: pack(hourly),
+      grid: pack(grid),
       fetchedAt: new Date().toISOString(),
     });
   }

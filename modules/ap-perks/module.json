@@ -3,9 +3,18 @@
   "title": "Annual Passholder Perks",
   "navLabel": "AP Perks",
   "tag": "",
-  "badges": [{ "type": "curated", "label": "Curated" }],
+  "badges": [
+    {
+      "type": "curated",
+      "label": "Curated"
+    }
+  ],
   "type": "curated",
-  "order": 100,
+  "order": 120,
   "slot": "main",
-  "enabled": true
+  "enabled": true,
+  "group": "REFERENCE",
+  "resorts": [
+    "wdw"
+  ]
 }

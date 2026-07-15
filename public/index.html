@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="/css/app.css">
 </head>
 <body>
+<button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
 
 <div class="ticket">
   <div class="ticket-inner" style="flex-direction:column;align-items:stretch;">
@@ -39,17 +40,22 @@
     <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:4px;">
       <div>
         <div class="stub-label" style="margin-bottom:8px;">Live Status</div>
-        <button id="refreshBtn" class="refresh-btn" style="font-size:15px;padding:12px 22px;">↻ Refresh</button>
+        <button id="refreshBtn" class="refresh-btn" style="font-size:15px;padding:12px 22px;" aria-label="Refresh live data">↻ Refresh</button>
       </div>
       <div style="background:var(--bg-inset);border:1px solid var(--line);border-radius:10px;padding:12px 18px;min-width:130px;text-align:right;">
         <div class="stub-label" style="margin-bottom:4px;">Today</div>
         <div class="stub-value" id="stubDate" style="font-size:17px;">—</div>
         <div class="stub-value" id="stubTime" style="color:var(--amber-ink);font-size:22px;margin-top:2px;">—</div>
+        <div class="stub-value" id="stubTemp" style="font-size:15px;margin-top:4px;">—</div>
       </div>
     </div>
   </div>
 </div>
 <div class="live-status" id="liveStatus"><span class="dot" id="liveDot"></span> <span id="liveStatusText">Loading live data…</span></div>
+<div class="wrap" style="padding-bottom:0;"><div class="tab-bar" style="margin:14px 0 0;">
+  <button class="tab-btn active" id="resortBtnWdw" aria-label="Show Walt Disney World data">Walt Disney World</button>
+  <button class="tab-btn" id="resortBtnDl" aria-label="Show Disneyland data">Disneyland</button>
+</div></div>
 
 <!-- Header-slot modules (e.g. the horizon timeline) mount here -->
 <div id="headerSlots"></div>

@@ -3,9 +3,18 @@
   "title": "Pet Boarding",
   "navLabel": "Pet Boarding",
   "tag": "Best Friends Pet Care",
-  "badges": [{ "type": "live", "label": "Live Hours" }],
+  "badges": [
+    {
+      "type": "live",
+      "label": "Live Hours"
+    }
+  ],
   "type": "live",
-  "order": 90,
+  "order": 130,
   "slot": "main",
-  "enabled": true
+  "enabled": true,
+  "group": "REFERENCE",
+  "resorts": [
+    "wdw"
+  ]
 }

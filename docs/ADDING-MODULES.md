@@ -45,6 +45,8 @@ modules/
 | `type` | `live` \| `curated` \| `static` (documentation/intent). |
 | `order` | Position on the page and in nav. **Gap-numbered** (10, 20, 30…) so you can insert without renumbering. |
 | `slot` | `main` (a section) or `header` (mounts above nav, like the horizon timeline). |
+| `group` | Quick-nav group label (`RIGHT NOW`, `PLAN`, `REFERENCE`). The shell inserts a `.nav-group-label` pill when the group changes between consecutive nav entries, and colors the section's left accent border by group. |
+| `resorts` | Optional array of resort keys the module applies to (e.g. `["wdw"]`). Omit for all resorts; WDW-only modules are hidden when Disneyland is active. |
 | `nav` | `false` hides the quick-nav pill (e.g. the favorites card). |
 | `enabled` | `false` hides the module entirely without deleting it. |
 

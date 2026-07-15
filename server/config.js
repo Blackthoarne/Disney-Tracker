@@ -33,12 +33,28 @@ export const config = {
   // Admin gate. Unset ⇒ curated writes + /admin are disabled (defense in depth).
   adminToken: env.ADMIN_TOKEN || "",
 
-  // Upstream identifiers.
+  // Upstream identifiers. DESTINATION_ID / WEATHER_GRID env vars override the
+  // default (WDW) resort; Disneyland ships alongside for the resort switcher.
   destinationId: env.DESTINATION_ID || "e957da41-3552-4cf6-b636-5babc5cbc4e5",
   weatherGrid: env.WEATHER_GRID || "MLB/20,61",
 
   // App version (kept in sync with package.json manually; cheap + dep-free).
   version: "1.0.0",
+
+  // Multi-resort map (ids/grids sourced from the v2 page). Keys are the
+  // accepted values of the ?resort= query parameter; wdw is the default.
+  destinations: {
+    wdw: {
+      destinationId: env.DESTINATION_ID || "e957da41-3552-4cf6-b636-5babc5cbc4e5",
+      weatherGrid: env.WEATHER_GRID || "MLB/20,61",
+      label: "Walt Disney World",
+    },
+    dl: {
+      destinationId: "bfc89fd6-314d-44b4-b89e-df1a89cf991e",
+      weatherGrid: "SGX/37,66",
+      label: "Disneyland Resort",
+    },
+  },
 
   // A descriptive User-Agent — NWS rejects requests without one.
   userAgent:

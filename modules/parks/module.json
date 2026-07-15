@@ -4,11 +4,18 @@
   "navLabel": "Park Details",
   "tag": "Section 4",
   "badges": [
-    { "type": "live", "label": "Live" },
-    { "type": "curated", "label": "+ Curated" }
+    {
+      "type": "live",
+      "label": "Live"
+    },
+    {
+      "type": "curated",
+      "label": "+ Curated"
+    }
   ],
   "type": "live",
-  "order": 50,
+  "order": 30,
   "slot": "main",
-  "enabled": true
+  "enabled": true,
+  "group": "RIGHT NOW"
 }

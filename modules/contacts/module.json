@@ -3,9 +3,18 @@
   "title": "Resort Contacts",
   "navLabel": "Resort Contacts",
   "tag": "",
-  "badges": [{ "type": "curated", "label": "Curated" }],
+  "badges": [
+    {
+      "type": "curated",
+      "label": "Curated"
+    }
+  ],
   "type": "curated",
-  "order": 130,
+  "order": 140,
   "slot": "main",
-  "enabled": true
+  "enabled": true,
+  "group": "REFERENCE",
+  "resorts": [
+    "wdw"
+  ]
 }

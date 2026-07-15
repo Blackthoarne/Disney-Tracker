@@ -25,8 +25,10 @@ export default {
       const periods = wx.properties.periods;
       const today = periods.find((p) => p.isDaytime) || periods[0];
       const tonight = periods.find((p) => !p.isDaytime) || periods[1];
-      q("wx-current").textContent = today.temperature + "°" + today.temperatureUnit;
-      q("wx-current-note").textContent = today.shortForecast;
+      // v2: "Right Now" reads the current hourly period, not today's forecast.
+      const nowP = data.hourly?.properties?.periods?.[0];
+      q("wx-current").textContent = (nowP || today).temperature + "°" + (nowP || today).temperatureUnit;
+      q("wx-current-note").textContent = (nowP || today).shortForecast;
       q("wx-hilo").textContent = today.temperature + "° / " + (tonight ? tonight.temperature + "°" : "—");
       const pop = today.probabilityOfPrecipitation && today.probabilityOfPrecipitation.value;
       q("wx-pop").textContent = pop != null ? pop + "%" : "—";

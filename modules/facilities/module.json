@@ -1,0 +1,13 @@
+{
+  "id": "facilities",
+  "title": "Restrooms, First Aid & Baby Care",
+  "navLabel": "Restrooms/First Aid",
+  "tag": "",
+  "badges": [{ "type": "curated", "label": "Curated" }],
+  "type": "curated",
+  "order": 70,
+  "slot": "main",
+  "group": "PLAN",
+  "resorts": ["wdw"],
+  "enabled": true
+}

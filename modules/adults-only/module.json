@@ -3,9 +3,18 @@
   "title": "Adults Only 🔞",
   "navLabel": "Adults Only",
   "tag": "",
-  "badges": [{ "type": "curated", "label": "Curated" }],
+  "badges": [
+    {
+      "type": "curated",
+      "label": "Curated"
+    }
+  ],
   "type": "curated",
-  "order": 110,
+  "order": 100,
   "slot": "main",
-  "enabled": true
+  "enabled": true,
+  "group": "PLAN",
+  "resorts": [
+    "wdw"
+  ]
 }

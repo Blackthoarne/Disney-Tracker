@@ -1,0 +1,19 @@
+{
+  "module": "facilities",
+  "updatedAt": "2026-07-15T14:00:00Z",
+  "updatedBy": "seed",
+  "intro": "First Aid + Baby Care Centers sit next to each other in every park. Restrooms are frequent throughout — nearest one is always on the My Disney Experience map (restroom icon).",
+  "note": "Baby Care Centers: free rest/nursing/changing space, sell diapers/formula/OTC meds. First Aid: free bandages/OTC meds, can store refrigerated medication, arranges Centra Care urgent care transport if needed. Emergency: call 911 or any Cast Member.",
+  "groups": [
+    {
+      "title": "",
+      "items": [
+        { "name": "🏰 Magic Kingdom", "desc": "Between Casey's Corner & Crystal Palace, just off Main Street (castle end, turn left)." },
+        { "name": "🌐 EPCOT", "desc": "Odyssey Building, between Test Track and the Mexico Pavilion." },
+        { "name": "🎬 Hollywood Studios", "desc": "Just inside main entrance, at/past Guest Relations (unstaffed baby care — ask Guest Relations for access)." },
+        { "name": "🌴 Animal Kingdom", "desc": "Discovery Island, next to Creature Comforts (Starbucks)." },
+        { "name": "🌊 Water Parks", "desc": "First Aid only (no Baby Care): Typhoon Lagoon near Leaning Palms; Blizzard Beach near Lottawatta Lodge." }
+      ]
+    }
+  ]
+}

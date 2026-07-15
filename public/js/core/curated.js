@@ -49,9 +49,9 @@ function renderGroup(group) {
     ? `<p class="curated-note" style="margin-bottom:8px;">${esc(group.note)}</p>`
     : "";
   const items = (group.items || []).map(renderItem).join("");
+  const title = group.title ? `<div class="park-group-title">${esc(group.title)}</div>` : "";
   return `<div class="park-group">
-    <div class="park-group-title">${esc(group.title || "")}</div>
-    ${note}${items}
+    ${title}${note}${items}
   </div>`;
 }
 
