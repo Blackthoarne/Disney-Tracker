@@ -90,10 +90,24 @@ export default {
       let html = "";
       if (hazards.length) {
         // h.value is an array of {phenomenon, significance} objects in NWS
-        // gridpoint data — flatten to readable codes (v2 printed the raw value).
+        // gridpoint data — translate to plain English, fall back to the code.
+        const PHENOMENON = {
+          XH: "Extreme Heat", EH: "Excessive Heat", HT: "Heat",
+          SV: "Severe Thunderstorm", TO: "Tornado", FL: "Flood", FA: "Flood",
+          FF: "Flash Flood", HU: "Hurricane", TR: "Tropical Storm",
+          WI: "Wind", HW: "High Wind", LI: "Lightning", RH: "Rip Current",
+          AF: "Air Quality", FG: "Dense Fog", FR: "Frost", FZ: "Freeze",
+        };
+        const SIGNIFICANCE = { W: "Warning", Y: "Advisory", A: "Watch", S: "Statement" };
         const names = hazards
           .flatMap((h) => (Array.isArray(h.value) ? h.value : [h.value]))
-          .map((v) => (v && typeof v === "object" ? [v.phenomenon, v.significance].filter(Boolean).join("-") : String(v)))
+          .map((v) => {
+            if (!v) return "";
+            if (typeof v !== "object") return String(v);
+            const code = [v.phenomenon, v.significance].filter(Boolean).join("-");
+            const label = [PHENOMENON[v.phenomenon], SIGNIFICANCE[v.significance]].filter(Boolean).join(" ");
+            return label || code;
+          })
           .filter(Boolean);
         if (names.length) {
           html += `<div class="alert-banner"><span>⚠️</span><div><b>Active NWS Alert:</b> ${esc(names.join(", "))}</div></div>`;
